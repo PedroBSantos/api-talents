@@ -1,8 +1,8 @@
 package com.talents.apitalents.services;
 
-import com.talents.apitalents.dto.PerfilEntrevistadoDTO;
+import com.talents.apitalents.dtos.PerfilEntrevistadoDTO;
 import com.talents.apitalents.entities.PerfilEntrevistado;
-import com.talents.apitalents.repository.PerfilEntrevistadoRepository;
+import com.talents.apitalents.repositories.PerfilEntrevistadoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

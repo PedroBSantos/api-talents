@@ -1,4 +1,4 @@
-package com.talents.apitalents.repository;
+package com.talents.apitalents.repositories;
 
 import java.time.LocalDate;
 

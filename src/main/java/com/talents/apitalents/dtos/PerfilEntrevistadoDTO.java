@@ -1,12 +1,12 @@
-package com.talents.apitalents.dto;
+package com.talents.apitalents.dtos;
 
 import java.io.Serializable;
 
-import com.talents.apitalents.entities.PerfilEsportistaCustom;
+import com.talents.apitalents.entities.PerfilEntrevistado;
 
-public class PerfilEsportistaCustomDTO implements Serializable {
+public class PerfilEntrevistadoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
- 
+    
     private Integer id;
     private Integer agilidade;
     private Integer coordenacaoMotora;
@@ -21,23 +21,23 @@ public class PerfilEsportistaCustomDTO implements Serializable {
     private Integer alturaTroncoCefalicaEstatura;
     private Integer imc;
 
-    public PerfilEsportistaCustomDTO() {
+    public PerfilEntrevistadoDTO() {
     }
 
-    public PerfilEsportistaCustomDTO(PerfilEsportistaCustom perfilEsportistaCustom) {
-        this.id = perfilEsportistaCustom.getId();
-        this.agilidade = perfilEsportistaCustom.getAgilidade();
-        this.coordenacaoMotora = perfilEsportistaCustom.getAgilidade();
-        this.flexibilidade = perfilEsportistaCustom.getFlexibilidade();
-        this.forca = perfilEsportistaCustom.getForca();
-        this.hipertrofia = perfilEsportistaCustom.getHipertrofia();
-        this.potencia = perfilEsportistaCustom.getPotencia();
-        this.resistencia = perfilEsportistaCustom.getResistencia();
-        this.velocidade = perfilEsportistaCustom.getVelocidade();
-        this.envergaduraEstatura = perfilEsportistaCustom.getEnvergaduraEstatura();
-        this.comprPernasEstatura = perfilEsportistaCustom.getComprPernasEstatura();
-        this.alturaTroncoCefalicaEstatura = perfilEsportistaCustom.getAlturaTroncoCefalicaEstatura();
-        this.imc = perfilEsportistaCustom.getImc();
+    public PerfilEntrevistadoDTO(PerfilEntrevistado perfilEntrevistado) {
+        this.id = perfilEntrevistado.getId();
+        this.agilidade = perfilEntrevistado.getAgilidade();
+        this.coordenacaoMotora = perfilEntrevistado.getAgilidade();
+        this.flexibilidade = perfilEntrevistado.getFlexibilidade();
+        this.forca = perfilEntrevistado.getForca();
+        this.hipertrofia = perfilEntrevistado.getHipertrofia();
+        this.potencia = perfilEntrevistado.getPotencia();
+        this.resistencia = perfilEntrevistado.getResistencia();
+        this.velocidade = perfilEntrevistado.getVelocidade();
+        this.envergaduraEstatura = perfilEntrevistado.getEnvergaduraEstatura();
+        this.comprPernasEstatura = perfilEntrevistado.getComprPernasEstatura();
+        this.alturaTroncoCefalicaEstatura = perfilEntrevistado.getAlturaTroncoCefalicaEstatura();
+        this.imc = perfilEntrevistado.getImc();
     }
 
     public Integer getId() {

@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.talents.apitalents.dto.EntrevistadorEsporteDTO;
+import com.talents.apitalents.dtos.EntrevistadorEsporteDTO;
 import com.talents.apitalents.entities.Entrevistador;
 import com.talents.apitalents.entities.EntrevistadorEsporte;
 import com.talents.apitalents.entities.Esporte;
 import com.talents.apitalents.entities.Graduacao;
 import com.talents.apitalents.entities.PerfilEsportistaCustom;
 import com.talents.apitalents.entities.PerfilEsportistaPadrao;
-import com.talents.apitalents.repository.EntrevistadorEsporteRepository;
-import com.talents.apitalents.repository.EntrevistadorRepository;
-import com.talents.apitalents.repository.EsporteRepository;
-import com.talents.apitalents.repository.GraduacaoRepository;
-import com.talents.apitalents.repository.PerfilEsportistaPadraoRepository;
+import com.talents.apitalents.repositories.EntrevistadorEsporteRepository;
+import com.talents.apitalents.repositories.EntrevistadorRepository;
+import com.talents.apitalents.repositories.EsporteRepository;
+import com.talents.apitalents.repositories.GraduacaoRepository;
+import com.talents.apitalents.repositories.PerfilEsportistaPadraoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;

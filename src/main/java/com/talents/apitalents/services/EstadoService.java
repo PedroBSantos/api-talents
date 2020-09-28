@@ -3,9 +3,9 @@ package com.talents.apitalents.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.talents.apitalents.dto.EstadoDTO;
+import com.talents.apitalents.dtos.EstadoDTO;
 import com.talents.apitalents.entities.Estado;
-import com.talents.apitalents.repository.EstadoRepository;
+import com.talents.apitalents.repositories.EstadoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

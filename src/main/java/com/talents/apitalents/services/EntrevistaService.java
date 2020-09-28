@@ -4,17 +4,17 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.talents.apitalents.dto.EntrevistaDTO;
-import com.talents.apitalents.dto.PerfilEntrevistadoDTO;
+import com.talents.apitalents.dtos.EntrevistaDTO;
+import com.talents.apitalents.dtos.PerfilEntrevistadoDTO;
 import com.talents.apitalents.entities.Entrevista;
 import com.talents.apitalents.entities.Entrevistado;
 import com.talents.apitalents.entities.Entrevistador;
 import com.talents.apitalents.entities.Esporte;
 import com.talents.apitalents.entities.PerfilEntrevistado;
-import com.talents.apitalents.repository.EntrevistaRepository;
-import com.talents.apitalents.repository.EntrevistadoRepository;
-import com.talents.apitalents.repository.EntrevistadorRepository;
-import com.talents.apitalents.repository.EsporteRepository;
+import com.talents.apitalents.repositories.EntrevistaRepository;
+import com.talents.apitalents.repositories.EntrevistadoRepository;
+import com.talents.apitalents.repositories.EntrevistadorRepository;
+import com.talents.apitalents.repositories.EsporteRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

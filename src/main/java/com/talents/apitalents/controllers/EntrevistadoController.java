@@ -2,7 +2,7 @@ package com.talents.apitalents.controllers;
 
 import java.util.List;
 
-import com.talents.apitalents.dto.EntrevistadoDTO;
+import com.talents.apitalents.dtos.EntrevistadoDTO;
 import com.talents.apitalents.services.EntrevistadoService;
 
 import org.springframework.beans.factory.annotation.Autowired;

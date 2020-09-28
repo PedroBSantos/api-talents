@@ -2,7 +2,7 @@ package com.talents.apitalents.controllers;
 
 import java.util.List;
 
-import com.talents.apitalents.dto.GraduacaoDTO;
+import com.talents.apitalents.dtos.GraduacaoDTO;
 import com.talents.apitalents.services.GraduacaoService;
 
 import org.springframework.beans.factory.annotation.Autowired;

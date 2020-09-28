@@ -1,12 +1,12 @@
 package com.talents.apitalents.services;
 
-import com.talents.apitalents.dto.EnderecoDTO;
+import com.talents.apitalents.dtos.EnderecoDTO;
 import com.talents.apitalents.entities.Cidade;
 import com.talents.apitalents.entities.Endereco;
 import com.talents.apitalents.entities.Estado;
-import com.talents.apitalents.repository.CidadeRepository;
-import com.talents.apitalents.repository.EnderecoRepository;
-import com.talents.apitalents.repository.EstadoRepository;
+import com.talents.apitalents.repositories.CidadeRepository;
+import com.talents.apitalents.repositories.EnderecoRepository;
+import com.talents.apitalents.repositories.EstadoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.talents.apitalents.dto.EnderecoDTO;
-import com.talents.apitalents.dto.EntrevistadoDTO;
+import com.talents.apitalents.dtos.EnderecoDTO;
+import com.talents.apitalents.dtos.EntrevistadoDTO;
 import com.talents.apitalents.entities.Endereco;
 import com.talents.apitalents.entities.Entrevistado;
-import com.talents.apitalents.repository.EntrevistadoRepository;
+import com.talents.apitalents.repositories.EntrevistadoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

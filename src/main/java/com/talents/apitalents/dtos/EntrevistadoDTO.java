@@ -1,4 +1,4 @@
-package com.talents.apitalents.dto;
+package com.talents.apitalents.dtos;
 
 import java.io.Serializable;
 import java.time.LocalDate;

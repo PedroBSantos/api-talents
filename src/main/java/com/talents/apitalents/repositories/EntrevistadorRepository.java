@@ -1,4 +1,4 @@
-package com.talents.apitalents.repository;
+package com.talents.apitalents.repositories;
 
 import com.talents.apitalents.entities.Entrevistador;
 

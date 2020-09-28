@@ -1,8 +1,8 @@
 package com.talents.apitalents.services;
 
-import com.talents.apitalents.dto.PerfilEsportistaCustomDTO;
+import com.talents.apitalents.dtos.PerfilEsportistaCustomDTO;
 import com.talents.apitalents.entities.PerfilEsportistaCustom;
-import com.talents.apitalents.repository.PerfilEsportistaCustomRepository;
+import com.talents.apitalents.repositories.PerfilEsportistaCustomRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;

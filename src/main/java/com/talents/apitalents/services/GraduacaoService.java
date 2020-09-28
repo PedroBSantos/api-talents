@@ -3,9 +3,9 @@ package com.talents.apitalents.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.talents.apitalents.dto.GraduacaoDTO;
+import com.talents.apitalents.dtos.GraduacaoDTO;
 import com.talents.apitalents.entities.Graduacao;
-import com.talents.apitalents.repository.GraduacaoRepository;
+import com.talents.apitalents.repositories.GraduacaoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
