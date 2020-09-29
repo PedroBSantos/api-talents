@@ -29,7 +29,7 @@ public class Entrevistado implements Serializable {
     private String rg;
     @Column(nullable = false, length = 50)
     private String nomeMae;
-    @Column(nullable = true, length = 30)
+    @Column(nullable = true, length = 30, unique = true)
     private String email;
     @Column(length = 20)
     private String sexo;

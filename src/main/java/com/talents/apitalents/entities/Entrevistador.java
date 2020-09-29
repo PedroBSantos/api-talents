@@ -22,9 +22,9 @@ public class Entrevistador implements Serializable {
     private Integer id;
     @Column(nullable = false, length = 100)
     private String nome;
-    @Column(nullable = true, length = 75)
+    @Column(nullable = true, length = 75, unique = true)
     private String email;
-    @Column(nullable = true, length = 50)
+    @Column(nullable = false, length = 50)
     private String titulacao;
     @ManyToOne
     @JoinColumn(name = "idGraduacao")
