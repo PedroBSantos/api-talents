@@ -36,8 +36,8 @@ public class PerfilEntrevistadoService {
     }
 
     @Transactional(readOnly = false)
-    public void delete(PerfilEntrevistadoDTO perfilEntrevistadoDTO) {
-        this.perfilEntrevistadoRepository.deleteById(perfilEntrevistadoDTO.getId());
+    public void delete(Integer idPerfilEntrevistado) {
+        this.perfilEntrevistadoRepository.deleteById(idPerfilEntrevistado);
     }
 
     public PerfilEntrevistadoDTO update(PerfilEntrevistadoDTO perfilEntrevistadoDTO) {

@@ -96,11 +96,11 @@ public class EntrevistadorEsporteService {
 
     @Transactional(readOnly = false)
     @Modifying
-    public EntrevistadorEsporteDTO delete(Integer idEntrevistador, Integer idEntrevistadorEsporte) {
+    public EntrevistadorEsporteDTO delete(Integer idEntrevistadorEsporte) {
         EntrevistadorEsporte entrevistadorEsporte = this.entrevistadorEsporteRepository.findById(idEntrevistadorEsporte)
-                .get();
-        this.entrevistadorEsporteRepository.deleteById(idEntrevistadorEsporte);
+                        .get();
         EntrevistadorEsporteDTO entrevistadorEsporteDTO = new EntrevistadorEsporteDTO(entrevistadorEsporte);
+        this.entrevistadorEsporteRepository.deleteById(idEntrevistadorEsporte);
         return entrevistadorEsporteDTO;
     }
 }

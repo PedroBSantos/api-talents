@@ -92,8 +92,12 @@ public class EntrevistaService {
     }
 
     @Transactional(readOnly = false)
-    public void delete(EntrevistaDTO entrevistaDTO) {
-        this.entrevistaRepository.deleteById(entrevistaDTO.getId());
-        this.perfilEntrevistadoService.delete(entrevistaDTO.getPerfilEntrevistadoDTO());
+    public EntrevistaDTO delete(Integer idEntrevista) {
+        Entrevista entrevista = this.entrevistaRepository.findById(idEntrevista).get();
+        Integer idPerfilEntrevistado = entrevista.getPerfilEntrevistado().getId();
+        EntrevistaDTO entrevistaDTO = new EntrevistaDTO(entrevista);
+        this.entrevistaRepository.delete(entrevista);
+        this.perfilEntrevistadoService.delete(idPerfilEntrevistado);
+        return entrevistaDTO;
     }
 }

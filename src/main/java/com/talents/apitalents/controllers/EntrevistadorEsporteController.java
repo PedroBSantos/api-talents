@@ -44,11 +44,10 @@ public class EntrevistadorEsporteController {
         return ResponseEntity.ok().body(entrevistadorEsporteDTO);
     }
 
-    @DeleteMapping("/{idEntrevistador}/{idEntrevistadorEsporte}")
-    public ResponseEntity<EntrevistadorEsporteDTO> delete(@PathVariable Integer idEntrevistador,
-            @PathVariable Integer idEntrevistadorEsporte) {
-        EntrevistadorEsporteDTO entrevistadorEsporteDTO = this.entrevistadorEsporteService.delete(idEntrevistador,
-                idEntrevistadorEsporte);
+    @DeleteMapping("/{idEntrevistadorEsporte}")
+    public ResponseEntity<EntrevistadorEsporteDTO> delete(@PathVariable Integer idEntrevistadorEsporte) {
+        EntrevistadorEsporteDTO entrevistadorEsporteDTO = this.entrevistadorEsporteService
+                .delete(idEntrevistadorEsporte);
         return ResponseEntity.ok().body(entrevistadorEsporteDTO);
     }
 }

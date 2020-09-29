@@ -24,12 +24,6 @@ public class EntrevistaController {
     @Autowired
     private EntrevistaService entrevistaService;
 
-    @GetMapping
-    public ResponseEntity<List<EntrevistaDTO>> findAll() {
-        List<EntrevistaDTO> entrevistaDTOs = this.entrevistaService.findAll();
-        return ResponseEntity.ok().body(entrevistaDTOs);
-    }
-
     @GetMapping("/entrevistado/{idEntrevistado}")
     public ResponseEntity<List<EntrevistaDTO>> findByEntrevistado(@PathVariable Integer idEntrevistado) {
         List<EntrevistaDTO> entrevistaDTOs = this.entrevistaService.findByIdEntrevistado(idEntrevistado);
@@ -54,9 +48,9 @@ public class EntrevistaController {
         return ResponseEntity.ok().body(entrevistaDTO);
     }
 
-    @DeleteMapping
-    public ResponseEntity<EntrevistaDTO> delete(@RequestBody EntrevistaDTO entrevistaDTO) {
-        this.entrevistaService.delete(entrevistaDTO);
+    @DeleteMapping("/entrevista/{idEntrevista}")
+    public ResponseEntity<EntrevistaDTO> delete(@PathVariable Integer idEntrevista) {
+        EntrevistaDTO entrevistaDTO = this.entrevistaService.delete(idEntrevista);
         return ResponseEntity.ok().body(entrevistaDTO);
     }
 }
