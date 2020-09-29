@@ -7,7 +7,7 @@ import com.talents.apitalents.entities.Entrevista;
 
 public class EntrevistaDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     private Integer id;
     private LocalDate dataEntrevista;
     private PerfilEntrevistadoDTO perfilEntrevistadoDTO;

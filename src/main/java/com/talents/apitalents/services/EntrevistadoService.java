@@ -50,14 +50,6 @@ public class EntrevistadoService {
         return entrevistadoDTO;
     }
 
-    // @Transactional(readOnly = false)
-    // public void delete(EntrevistadoDTO entrevistadoDTO) {
-    //     Integer idEntrevistado = entrevistadoDTO.getId();
-    //     EnderecoDTO enderecoDTO = entrevistadoDTO.getEnderecoDTO();
-    //     this.entrevistadoRepository.deleteById(idEntrevistado);
-    //     this.enderecoService.delete(enderecoDTO);
-    // }
-
     public EntrevistadoDTO update(EntrevistadoDTO entrevistadoDTO) {
         Integer idEntrevistado = entrevistadoDTO.getId();
         String nome = entrevistadoDTO.getNome();

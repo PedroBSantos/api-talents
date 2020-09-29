@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PerfilEsportistaCustomRepository extends JpaRepository<PerfilEsportistaCustom, Integer> {
-    
+
     @Transactional
     @Modifying
     @Query("UPDATE PerfilEsportistaCustom SET agilidade = :agilidade, coordenacao_motora = :coordenacaoMotora, "

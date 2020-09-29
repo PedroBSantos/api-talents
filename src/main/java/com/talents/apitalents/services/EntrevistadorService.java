@@ -56,11 +56,4 @@ public class EntrevistadorService {
         entrevistadorDTO = new EntrevistadorDTO(entrevistador);
         return entrevistadorDTO;
     }
-
-    // public EntrevistadorDTO delete(Integer idEntrevistador) {
-    //     Entrevistador entrevistador = this.entrevistadorRepository.findById(idEntrevistador).get();
-    //     this.entrevistadorRepository.deleteById(idEntrevistador);
-    //     EntrevistadorDTO entrevistadorDTO = new EntrevistadorDTO(entrevistador);
-    //     return entrevistadorDTO;
-    // }
 }

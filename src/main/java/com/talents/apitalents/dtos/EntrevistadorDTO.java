@@ -6,7 +6,7 @@ import com.talents.apitalents.entities.Entrevistador;
 
 public class EntrevistadorDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     private Integer id;
     private String nome;
     private String email;

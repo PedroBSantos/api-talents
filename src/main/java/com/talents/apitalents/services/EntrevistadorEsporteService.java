@@ -98,7 +98,7 @@ public class EntrevistadorEsporteService {
     @Modifying
     public EntrevistadorEsporteDTO delete(Integer idEntrevistadorEsporte) {
         EntrevistadorEsporte entrevistadorEsporte = this.entrevistadorEsporteRepository.findById(idEntrevistadorEsporte)
-                        .get();
+                .get();
         EntrevistadorEsporteDTO entrevistadorEsporteDTO = new EntrevistadorEsporteDTO(entrevistadorEsporte);
         this.entrevistadorEsporteRepository.deleteById(idEntrevistadorEsporte);
         return entrevistadorEsporteDTO;

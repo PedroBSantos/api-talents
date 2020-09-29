@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface EntrevistadoRepository extends JpaRepository<Entrevistado, Integer> {
 
-        @Transactional
-        @Modifying
-        @Query("UPDATE Entrevistado SET nome = :nome, cpf = :cpf, rg = :rg, nome_mae = :nomeMae, email = :email, "
-                        + "sexo = :sexo, etnia = :etnia, telefone = :telefone, data_nascimento = :dataNascimento WHERE id = "
-                        + ":idEntrevistado")
-        void update(String nome, String cpf, String rg, String nomeMae, String email, String sexo, String etnia,
-                        String telefone, LocalDate dataNascimento, Integer idEntrevistado);
+    @Transactional
+    @Modifying
+    @Query("UPDATE Entrevistado SET nome = :nome, cpf = :cpf, rg = :rg, nome_mae = :nomeMae, email = :email, "
+            + "sexo = :sexo, etnia = :etnia, telefone = :telefone, data_nascimento = :dataNascimento WHERE id = "
+            + ":idEntrevistado")
+    void update(String nome, String cpf, String rg, String nomeMae, String email, String sexo, String etnia,
+            String telefone, LocalDate dataNascimento, Integer idEntrevistado);
 }

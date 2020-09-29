@@ -40,10 +40,4 @@ public class EntrevistadorController {
         entrevistadorDTO = this.entrevistadorService.update(entrevistadorDTO);
         return ResponseEntity.ok().body(entrevistadorDTO);
     }
-
-    // @DeleteMapping("/{idEntrevistador}")
-    // public ResponseEntity<EntrevistadorDTO> delete(@PathVariable Integer idEntrevistador) {
-    //     EntrevistadorDTO entrevistadorDTO = this.entrevistadorService.delete(idEntrevistador);
-    //     return ResponseEntity.ok().body(entrevistadorDTO);
-    // }
 }

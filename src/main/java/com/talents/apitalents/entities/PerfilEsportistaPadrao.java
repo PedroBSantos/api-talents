@@ -46,10 +46,9 @@ public class PerfilEsportistaPadrao implements Serializable {
     public PerfilEsportistaPadrao() {
     }
 
-    public PerfilEsportistaPadrao(Integer agilidade, Integer coordenacaoMotora, Integer flexibilidade,
-            Integer forca, Integer hipertrofia, Integer potencia, Integer resistencia, Integer velocidade,
-            Integer envergaduraEstatura, Integer comprPernasEstatura, Integer alturaTroncoCefalicaEstatura,
-            Integer imc) {
+    public PerfilEsportistaPadrao(Integer agilidade, Integer coordenacaoMotora, Integer flexibilidade, Integer forca,
+            Integer hipertrofia, Integer potencia, Integer resistencia, Integer velocidade, Integer envergaduraEstatura,
+            Integer comprPernasEstatura, Integer alturaTroncoCefalicaEstatura, Integer imc) {
         this.agilidade = agilidade;
         this.coordenacaoMotora = coordenacaoMotora;
         this.flexibilidade = flexibilidade;

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CidadeRepository extends JpaRepository<Cidade, Integer> {
-    
+
     @Query("SELECT cidade FROM Cidade cidade WHERE id_estado = :idEstado")
     List<Cidade> findByIdEstado(Integer idEstado);
 }

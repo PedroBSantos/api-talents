@@ -6,7 +6,7 @@ import com.talents.apitalents.entities.PerfilEntrevistado;
 
 public class PerfilEntrevistadoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     private Integer id;
     private Integer agilidade;
     private Integer coordenacaoMotora;
