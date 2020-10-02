@@ -19,7 +19,7 @@ public class CidadeController {
     @Autowired
     private CidadeService cidadeService;
 
-    @GetMapping("/estado/{idEstado}")
+    @GetMapping("/estados/{idEstado}")
     public ResponseEntity<List<CidadeDTO>> findByEstado(@PathVariable Integer idEstado) {
         List<CidadeDTO> cidadeDTOs = this.cidadeService.findByIdEstado(idEstado);
         return ResponseEntity.ok().body(cidadeDTOs);

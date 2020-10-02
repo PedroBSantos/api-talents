@@ -1,6 +1,5 @@
 package com.talents.apitalents.services;
 
-import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteDTO;
 import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteInsertDTO;
 import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteUpdateDTO;
 import com.talents.apitalents.dtos.perfil.PerfilDTO;
@@ -91,10 +90,7 @@ public class EntrevistadorEsporteService {
     }
 
     @Transactional(readOnly = false)
-    public EntrevistadorEsporteDTO delete(Integer id) {
-        EntrevistadorEsporte entrevistadorEsporte = this.entrevistadorEsporteRepository.findById(id).get();
+    public void delete(Integer id) {
         this.entrevistadorEsporteRepository.deleteById(id);
-        EntrevistadorEsporteDTO entrevistadorEsporteDTO = new EntrevistadorEsporteDTO(entrevistadorEsporte);
-        return entrevistadorEsporteDTO;
     }
 }

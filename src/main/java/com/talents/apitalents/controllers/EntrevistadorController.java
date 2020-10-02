@@ -5,7 +5,6 @@ import java.util.List;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorDTO;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorInsertDTO;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorUpdateDTO;
-import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteDTO;
 import com.talents.apitalents.services.EntrevistadorEsporteService;
 import com.talents.apitalents.services.EntrevistadorService;
 
@@ -49,9 +48,9 @@ public class EntrevistadorController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/entrevistadoresporte/{id}")
-    public ResponseEntity<EntrevistadorEsporteDTO> delete(@PathVariable Integer id) {
-        EntrevistadorEsporteDTO entrevistadorEsporteDTO = this.entrevistadorEsporteService.delete(id);
-        return ResponseEntity.ok().body(entrevistadorEsporteDTO);
+    @DeleteMapping("/entrevistadoresportes/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {
+        this.entrevistadorEsporteService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }
