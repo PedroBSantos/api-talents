@@ -2,14 +2,19 @@ package com.talents.apitalents.controllers;
 
 import java.util.List;
 
-import com.talents.apitalents.dtos.EntrevistadorDTO;
+import com.talents.apitalents.dtos.entrevistador.EntrevistadorDTO;
+import com.talents.apitalents.dtos.entrevistador.EntrevistadorInsertDTO;
+import com.talents.apitalents.dtos.entrevistador.EntrevistadorUpdateDTO;
+import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteDTO;
+import com.talents.apitalents.services.EntrevistadorEsporteService;
 import com.talents.apitalents.services.EntrevistadorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +28,9 @@ public class EntrevistadorController {
     @Autowired
     private EntrevistadorService entrevistadorService;
 
+    @Autowired
+    private EntrevistadorEsporteService entrevistadorEsporteService;
+
     @GetMapping
     public ResponseEntity<List<EntrevistadorDTO>> findAll() {
         List<EntrevistadorDTO> entrevistadorDTOs = this.entrevistadorService.findAll();
@@ -30,14 +38,20 @@ public class EntrevistadorController {
     }
 
     @PostMapping
-    public ResponseEntity<EntrevistadorDTO> create(@RequestBody EntrevistadorDTO entrevistadorDTO) {
-        entrevistadorDTO = this.entrevistadorService.create(entrevistadorDTO);
-        return ResponseEntity.ok().body(entrevistadorDTO);
+    public ResponseEntity<EntrevistadorDTO> create(@RequestBody EntrevistadorInsertDTO entrevistadorInsertDTO) {
+        EntrevistadorDTO entrevistadorDTO = this.entrevistadorService.create(entrevistadorInsertDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(entrevistadorDTO);
     }
 
     @PutMapping
-    public ResponseEntity<EntrevistadorDTO> update(@RequestBody EntrevistadorDTO entrevistadorDTO) {
-        entrevistadorDTO = this.entrevistadorService.update(entrevistadorDTO);
-        return ResponseEntity.ok().body(entrevistadorDTO);
+    public ResponseEntity<Object> update(@RequestBody EntrevistadorUpdateDTO entrevistadorUpdateDTO) {
+        this.entrevistadorService.update(entrevistadorUpdateDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/entrevistadoresporte/{id}")
+    public ResponseEntity<EntrevistadorEsporteDTO> delete(@PathVariable Integer id) {
+        EntrevistadorEsporteDTO entrevistadorEsporteDTO = this.entrevistadorEsporteService.delete(id);
+        return ResponseEntity.ok().body(entrevistadorEsporteDTO);
     }
 }

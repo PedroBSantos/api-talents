@@ -3,8 +3,11 @@ package com.talents.apitalents.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.talents.apitalents.dtos.EntrevistadorDTO;
-import com.talents.apitalents.dtos.GraduacaoDTO;
+import com.talents.apitalents.dtos.entrevistador.EntrevistadorDTO;
+import com.talents.apitalents.dtos.entrevistador.EntrevistadorInsertDTO;
+import com.talents.apitalents.dtos.entrevistador.EntrevistadorUpdateDTO;
+import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteInsertDTO;
+import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteUpdateDTO;
 import com.talents.apitalents.entities.Entrevistador;
 import com.talents.apitalents.entities.Graduacao;
 import com.talents.apitalents.repositories.EntrevistadorRepository;
@@ -23,6 +26,9 @@ public class EntrevistadorService {
     @Autowired
     private GraduacaoRepository graduacaoRepository;
 
+    @Autowired
+    private EntrevistadorEsporteService entrevistadorEsporteService;
+
     @Transactional(readOnly = true)
     public List<EntrevistadorDTO> findAll() {
         List<Entrevistador> entrevistadores = this.entrevistadorRepository.findAll();
@@ -31,29 +37,35 @@ public class EntrevistadorService {
     }
 
     @Transactional(readOnly = false)
-    public EntrevistadorDTO create(EntrevistadorDTO entrevistadorDTO) {
-        String nome = entrevistadorDTO.getNome();
-        String email = entrevistadorDTO.getEmail();
-        String titulacao = entrevistadorDTO.getTitulacao();
-        GraduacaoDTO graduacaoDTO = entrevistadorDTO.getGraduacaoDTO();
-        Graduacao graduacao = this.graduacaoRepository.getOne(graduacaoDTO.getId());
+    public EntrevistadorDTO create(EntrevistadorInsertDTO entrevistadorInsertDTO) {
+        Integer idGraduacao = entrevistadorInsertDTO.getIdGraduacao();
+        String nome = entrevistadorInsertDTO.getNome();
+        String email = entrevistadorInsertDTO.getEmail();
+        String titulacao = entrevistadorInsertDTO.getTitulacao();
         Entrevistador entrevistador = new Entrevistador(nome, email, titulacao);
+        Graduacao graduacao = this.graduacaoRepository.getOne(idGraduacao);
         entrevistador.setGraduacao(graduacao);
         entrevistador = this.entrevistadorRepository.save(entrevistador);
-        entrevistadorDTO = new EntrevistadorDTO(entrevistador);
+        for (EntrevistadorEsporteInsertDTO entrevistadorEsporteInsertDTO : entrevistadorInsertDTO
+                .getEntrevistadorEsporteInsertDTOs()) {
+            entrevistadorEsporteInsertDTO.setIdEntrevistador(entrevistador.getId());
+            var entrevistadorEsporte = this.entrevistadorEsporteService.create(entrevistadorEsporteInsertDTO);
+            entrevistador.getEntrevistadorEsportes().add(entrevistadorEsporte);
+        }
+        EntrevistadorDTO entrevistadorDTO = new EntrevistadorDTO(entrevistador);
         return entrevistadorDTO;
     }
 
-    public EntrevistadorDTO update(EntrevistadorDTO entrevistadorDTO) {
-        GraduacaoDTO graduacaoDTO = entrevistadorDTO.getGraduacaoDTO();
-        Integer idEntrevistador = entrevistadorDTO.getId();
-        Integer idGraduacao = graduacaoDTO.getId();
-        String nome = entrevistadorDTO.getNome();
-        String email = entrevistadorDTO.getEmail();
-        String titulacao = entrevistadorDTO.getTitulacao();
-        this.entrevistadorRepository.update(nome, email, titulacao, idGraduacao, idEntrevistador);
-        Entrevistador entrevistador = this.entrevistadorRepository.findById(entrevistadorDTO.getId()).get();
-        entrevistadorDTO = new EntrevistadorDTO(entrevistador);
-        return entrevistadorDTO;
+    public void update(EntrevistadorUpdateDTO entrevistadorUpdateDTO) {
+        Integer id = entrevistadorUpdateDTO.getId();
+        Integer idGraduacao = entrevistadorUpdateDTO.getIdGraduacao();
+        String nome = entrevistadorUpdateDTO.getNome();
+        String email = entrevistadorUpdateDTO.getEmail();
+        String titulacao = entrevistadorUpdateDTO.getTitulacao();
+        this.entrevistadorRepository.update(nome, email, titulacao, idGraduacao, id);
+        for (EntrevistadorEsporteUpdateDTO entrevistadorEsporteUpdateDTO : entrevistadorUpdateDTO
+                .getEntrevistadorEsporteUpdateDTOs()) {
+            this.entrevistadorEsporteService.update(entrevistadorEsporteUpdateDTO);
+        }
     }
 }

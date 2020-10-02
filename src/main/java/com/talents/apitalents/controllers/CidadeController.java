@@ -2,7 +2,7 @@ package com.talents.apitalents.controllers;
 
 import java.util.List;
 
-import com.talents.apitalents.dtos.CidadeDTO;
+import com.talents.apitalents.dtos.cidade.CidadeDTO;
 import com.talents.apitalents.services.CidadeService;
 
 import org.springframework.beans.factory.annotation.Autowired;

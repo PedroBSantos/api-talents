@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.talents.apitalents.dtos.EntrevistaDTO;
-import com.talents.apitalents.dtos.PerfilEntrevistadoDTO;
+import com.talents.apitalents.dtos.entrevista.EntrevistaDTO;
+import com.talents.apitalents.dtos.entrevista.EntrevistaInsertDTO;
+import com.talents.apitalents.dtos.perfil.PerfilDTO;
+import com.talents.apitalents.dtos.perfil.PerfilInsertDTO;
 import com.talents.apitalents.entities.Entrevista;
 import com.talents.apitalents.entities.Entrevistado;
 import com.talents.apitalents.entities.Entrevistador;
@@ -15,8 +17,10 @@ import com.talents.apitalents.repositories.EntrevistaRepository;
 import com.talents.apitalents.repositories.EntrevistadoRepository;
 import com.talents.apitalents.repositories.EntrevistadorRepository;
 import com.talents.apitalents.repositories.EsporteRepository;
+import com.talents.apitalents.repositories.PerfilEntrevistadoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,77 +31,91 @@ public class EntrevistaService {
     private EntrevistaRepository entrevistaRepository;
 
     @Autowired
-    private PerfilEntrevistadoService perfilEntrevistadoService;
-
-    @Autowired
-    private EntrevistadorRepository entrevistadorRepository;
+    private EsporteRepository esporteRepository;
 
     @Autowired
     private EntrevistadoRepository entrevistadoRepository;
 
     @Autowired
-    private EsporteRepository esporteRepository;
+    private EntrevistadorRepository entrevistadorRepository;
+
+    @Autowired
+    private PerfilEntrevistadoRepository perfilEntrevistadoRepository;
 
     @Transactional(readOnly = true)
-    public List<EntrevistaDTO> findAll() {
-        List<Entrevista> entrevistas = this.entrevistaRepository.findAll();
+    public List<EntrevistaDTO> findByEntrevistado(Integer idEntrevistado) {
+        List<Entrevista> entrevistas = this.entrevistaRepository.findByEntrevistado(idEntrevistado);
         return entrevistas.stream().map(entrevista -> new EntrevistaDTO(entrevista)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<EntrevistaDTO> findByIdEntrevistado(Integer idEntrevistado) {
-        Entrevistado entrevistado = new Entrevistado();
-        entrevistado.setId(idEntrevistado);
-        List<Entrevista> entrevistas = this.entrevistaRepository.findByEntrevistado(entrevistado);
-        return entrevistas.stream().map(entrevista -> new EntrevistaDTO(entrevista)).collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<EntrevistaDTO> findByIdEntrevistador(Integer idEntrevistador) {
-        Entrevistador entrevistador = new Entrevistador();
-        entrevistador.setId(idEntrevistador);
-        List<Entrevista> entrevistas = this.entrevistaRepository.findByEntrevistador(entrevistador);
+    public List<EntrevistaDTO> findByEntrevistador(Integer idEntrevistador) {
+        List<Entrevista> entrevistas = this.entrevistaRepository.findByEntrevistador(idEntrevistador);
         return entrevistas.stream().map(entrevista -> new EntrevistaDTO(entrevista)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = false)
-    public EntrevistaDTO create(EntrevistaDTO entrevistaDTO) {
-        Entrevistador entrevistador = this.entrevistadorRepository.getOne(entrevistaDTO.getEntrevistadorDTO().getId());
-        Entrevistado entrevistado = this.entrevistadoRepository.getOne(entrevistaDTO.getEntrevistadoDTO().getId());
-        Esporte esporte = this.esporteRepository.getOne(entrevistaDTO.getEsporteDTO().getId());
-        Entrevista entrevista = new Entrevista(entrevistaDTO.getDataEntrevista(), entrevistado, entrevistador, esporte);
-        PerfilEntrevistado perfilEntrevistado = this.perfilEntrevistadoService
-                .create(entrevistaDTO.getPerfilEntrevistadoDTO());
+    public EntrevistaDTO create(EntrevistaInsertDTO entrevistaInsertDTO) {
+        Integer idEntrevistado = entrevistaInsertDTO.getIdEntrevistado();
+        Integer idEntrevistador = entrevistaInsertDTO.getIdEntrevistador();
+        Integer idEsporte = entrevistaInsertDTO.getIdEsporte();
+        LocalDate dataEntrevista = entrevistaInsertDTO.getDataEntrevista();
+        PerfilInsertDTO perfilInsertDTO = entrevistaInsertDTO.getPerfilEntrevistado();
+        Esporte esporte = this.esporteRepository.getOne(idEsporte);
+        Entrevistador entrevistador = this.entrevistadorRepository.getOne(idEntrevistador);
+        Entrevistado entrevistado = this.entrevistadoRepository.getOne(idEntrevistado);
+        Entrevista entrevista = new Entrevista(dataEntrevista, entrevistado, entrevistador, esporte);
+        Integer agilidade = perfilInsertDTO.getAgilidade();
+        Integer coordenacaoMotora = perfilInsertDTO.getCoordenacaoMotora();
+        Integer flexibilidade = perfilInsertDTO.getFlexibilidade();
+        Integer forca = perfilInsertDTO.getForca();
+        Integer hipertrofia = perfilInsertDTO.getHipertrofia();
+        Integer potencia = perfilInsertDTO.getPotencia();
+        Integer resistencia = perfilInsertDTO.getResistencia();
+        Integer velocidade = perfilInsertDTO.getVelocidade();
+        Integer envergaduraEstatura = perfilInsertDTO.getEnvergaduraEstatura();
+        Integer comprPernasEstatura = perfilInsertDTO.getComprPernasEstatura();
+        Integer alturaTroncoCefalicaEstatura = perfilInsertDTO.getAlturaTroncoCefalicaEstatura();
+        Integer imc = perfilInsertDTO.getImc();
+        PerfilEntrevistado perfilEntrevistado = new PerfilEntrevistado(agilidade, coordenacaoMotora, flexibilidade,
+                forca, hipertrofia, potencia, resistencia, velocidade, envergaduraEstatura, comprPernasEstatura,
+                alturaTroncoCefalicaEstatura, imc);
+        perfilEntrevistado = this.perfilEntrevistadoRepository.save(perfilEntrevistado);
         entrevista.setPerfilEntrevistado(perfilEntrevistado);
         entrevista = this.entrevistaRepository.save(entrevista);
-        entrevistaDTO = new EntrevistaDTO(entrevista);
-        return entrevistaDTO;
-    }
-
-    @Transactional(readOnly = false)
-    public EntrevistaDTO update(EntrevistaDTO entrevistaDTO) {
-        Integer idEntrevista = entrevistaDTO.getId();
-        LocalDate dataEntrevista = entrevistaDTO.getDataEntrevista();
-        Integer idEntrevistado = entrevistaDTO.getEntrevistadoDTO().getId();
-        Integer idEntrevistador = entrevistaDTO.getEntrevistadorDTO().getId();
-        Integer idEsporte = entrevistaDTO.getEsporteDTO().getId();
-        Integer idPerfilEntrevistado = entrevistaDTO.getPerfilEntrevistadoDTO().getId();
-        PerfilEntrevistadoDTO perfilEntrevistadoDTO = entrevistaDTO.getPerfilEntrevistadoDTO();
-        perfilEntrevistadoDTO = this.perfilEntrevistadoService.update(perfilEntrevistadoDTO);
-        this.entrevistaRepository.update(idEntrevista, dataEntrevista, idEntrevistado, idEntrevistador, idEsporte,
-                idPerfilEntrevistado);
-        Entrevista entrevista = this.entrevistaRepository.findById(entrevistaDTO.getId()).get();
-        entrevistaDTO = new EntrevistaDTO(entrevista);
-        return entrevistaDTO;
-    }
-
-    @Transactional(readOnly = false)
-    public EntrevistaDTO delete(Integer idEntrevista) {
-        Entrevista entrevista = this.entrevistaRepository.findById(idEntrevista).get();
-        Integer idPerfilEntrevistado = entrevista.getPerfilEntrevistado().getId();
         EntrevistaDTO entrevistaDTO = new EntrevistaDTO(entrevista);
-        this.entrevistaRepository.delete(entrevista);
-        this.perfilEntrevistadoService.delete(idPerfilEntrevistado);
         return entrevistaDTO;
+    }
+
+    public void update(EntrevistaDTO entrevistaDTO) {
+        Integer id = entrevistaDTO.getId();
+        Integer idEntrevistado = entrevistaDTO.getIdEntrevistado();
+        Integer idEntrevistador = entrevistaDTO.getIdEntrevistador();
+        Integer idEsporte = entrevistaDTO.getIdEsporte();
+        LocalDate dataEntrevista = entrevistaDTO.getDataEntrevista();
+        PerfilDTO perfilEntrevistado = entrevistaDTO.getPerfilEntrevistadoDTO();
+        this.entrevistaRepository.update(id, dataEntrevista, idEntrevistado, idEntrevistador, idEsporte,
+                perfilEntrevistado.getId());
+        Integer agilidade = perfilEntrevistado.getAgilidade();
+        Integer coordenacaoMotora = perfilEntrevistado.getCoordenacaoMotora();
+        Integer flexibilidade = perfilEntrevistado.getFlexibilidade();
+        Integer forca = perfilEntrevistado.getForca();
+        Integer hipertrofia = perfilEntrevistado.getHipertrofia();
+        Integer potencia = perfilEntrevistado.getPotencia();
+        Integer resistencia = perfilEntrevistado.getResistencia();
+        Integer velocidade = perfilEntrevistado.getVelocidade();
+        Integer envergaduraEstatura = perfilEntrevistado.getEnvergaduraEstatura();
+        Integer comprPernasEstatura = perfilEntrevistado.getComprPernasEstatura();
+        Integer alturaTroncoCefalicaEstatura = perfilEntrevistado.getAlturaTroncoCefalicaEstatura();
+        Integer imc = perfilEntrevistado.getImc();
+        this.perfilEntrevistadoRepository.update(perfilEntrevistado.getId(), agilidade, coordenacaoMotora,
+                flexibilidade, forca, hipertrofia, potencia, resistencia, velocidade, envergaduraEstatura,
+                comprPernasEstatura, alturaTroncoCefalicaEstatura, imc);
+    }
+
+    @Transactional(readOnly = false)
+    @Modifying
+    public void delete(Integer id) {
+        this.entrevistaRepository.deleteById(id);
     }
 }

@@ -1,23 +1,17 @@
-package com.talents.apitalents.dtos;
-
-import java.io.Serializable;
+package com.talents.apitalents.dtos.estado;
 
 import com.talents.apitalents.entities.Estado;
 
-public class EstadoDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class EstadoDTO {
 
     private Integer id;
-    private String sigla;
     private String nome;
-
-    public EstadoDTO() {
-    }
+    private String sigla;
 
     public EstadoDTO(Estado estado) {
         this.id = estado.getId();
-        this.sigla = estado.getSigla();
         this.nome = estado.getNome();
+        this.sigla = estado.getSigla();
     }
 
     public Integer getId() {
@@ -28,19 +22,19 @@ public class EstadoDTO implements Serializable {
         this.id = id;
     }
 
-    public String getSigla() {
-        return sigla;
-    }
-
-    public void setSigla(String sigla) {
-        this.sigla = sigla;
-    }
-
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getSigla() {
+        return sigla;
+    }
+
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
     }
 }

@@ -1,27 +1,17 @@
-package com.talents.apitalents.dtos;
+package com.talents.apitalents.dtos.endereco;
 
 import java.io.Serializable;
 
-import com.talents.apitalents.entities.Endereco;
-
-public class EnderecoDTO implements Serializable {
+public class EnderecoUpdateDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
     private String rua;
     private String bairro;
     private String complemento;
-    private CidadeDTO cidadeDTO;
+    private Integer idCidade;
 
-    public EnderecoDTO() {
-    }
-
-    public EnderecoDTO(Endereco endereco) {
-        this.id = endereco.getId();
-        this.rua = endereco.getRua();
-        this.bairro = endereco.getBairro();
-        this.complemento = endereco.getComplemento();
-        this.cidadeDTO = new CidadeDTO(endereco.getCidade());
+    public EnderecoUpdateDTO() {
     }
 
     public Integer getId() {
@@ -56,11 +46,11 @@ public class EnderecoDTO implements Serializable {
         this.complemento = complemento;
     }
 
-    public CidadeDTO getCidadeDTO() {
-        return cidadeDTO;
+    public Integer getIdCidade() {
+        return idCidade;
     }
 
-    public void setCidadeDTO(CidadeDTO cidadeDTO) {
-        this.cidadeDTO = cidadeDTO;
+    public void setIdCidade(Integer idCidade) {
+        this.idCidade = idCidade;
     }
 }

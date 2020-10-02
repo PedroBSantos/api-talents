@@ -3,7 +3,7 @@ package com.talents.apitalents.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.talents.apitalents.dtos.EsporteDTO;
+import com.talents.apitalents.dtos.esporte.EsporteDTO;
 import com.talents.apitalents.entities.Esporte;
 import com.talents.apitalents.repositories.EsporteRepository;
 

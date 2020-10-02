@@ -1,13 +1,10 @@
-package com.talents.apitalents.dtos;
+package com.talents.apitalents.dtos.perfil;
 
 import java.io.Serializable;
 
-import com.talents.apitalents.entities.PerfilEntrevistado;
-
-public class PerfilEntrevistadoDTO implements Serializable {
+public class PerfilInsertDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
     private Integer agilidade;
     private Integer coordenacaoMotora;
     private Integer flexibilidade;
@@ -21,31 +18,24 @@ public class PerfilEntrevistadoDTO implements Serializable {
     private Integer alturaTroncoCefalicaEstatura;
     private Integer imc;
 
-    public PerfilEntrevistadoDTO() {
+    public PerfilInsertDTO() {
     }
 
-    public PerfilEntrevistadoDTO(PerfilEntrevistado perfilEntrevistado) {
-        this.id = perfilEntrevistado.getId();
-        this.agilidade = perfilEntrevistado.getAgilidade();
-        this.coordenacaoMotora = perfilEntrevistado.getAgilidade();
-        this.flexibilidade = perfilEntrevistado.getFlexibilidade();
-        this.forca = perfilEntrevistado.getForca();
-        this.hipertrofia = perfilEntrevistado.getHipertrofia();
-        this.potencia = perfilEntrevistado.getPotencia();
-        this.resistencia = perfilEntrevistado.getResistencia();
-        this.velocidade = perfilEntrevistado.getVelocidade();
-        this.envergaduraEstatura = perfilEntrevistado.getEnvergaduraEstatura();
-        this.comprPernasEstatura = perfilEntrevistado.getComprPernasEstatura();
-        this.alturaTroncoCefalicaEstatura = perfilEntrevistado.getAlturaTroncoCefalicaEstatura();
-        this.imc = perfilEntrevistado.getImc();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public PerfilInsertDTO(Integer agilidade, Integer coordenacaoMotora, Integer flexibilidade, Integer forca,
+            Integer hipertrofia, Integer potencia, Integer resistencia, Integer velocidade, Integer envergaduraEstatura,
+            Integer comprPernasEstatura, Integer alturaTroncoCefalicaEstatura, Integer imc) {
+        this.agilidade = agilidade;
+        this.coordenacaoMotora = coordenacaoMotora;
+        this.flexibilidade = flexibilidade;
+        this.forca = forca;
+        this.hipertrofia = hipertrofia;
+        this.potencia = potencia;
+        this.resistencia = resistencia;
+        this.velocidade = velocidade;
+        this.envergaduraEstatura = envergaduraEstatura;
+        this.comprPernasEstatura = comprPernasEstatura;
+        this.alturaTroncoCefalicaEstatura = alturaTroncoCefalicaEstatura;
+        this.imc = imc;
     }
 
     public Integer getAgilidade() {

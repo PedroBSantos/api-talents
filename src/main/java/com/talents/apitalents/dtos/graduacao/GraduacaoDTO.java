@@ -1,4 +1,4 @@
-package com.talents.apitalents.dtos;
+package com.talents.apitalents.dtos.graduacao;
 
 import java.io.Serializable;
 
@@ -9,9 +9,6 @@ public class GraduacaoDTO implements Serializable {
 
     private Integer id;
     private String nome;
-
-    public GraduacaoDTO() {
-    }
 
     public GraduacaoDTO(Graduacao graduacao) {
         this.id = graduacao.getId();

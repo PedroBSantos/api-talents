@@ -1,24 +1,20 @@
 package com.talents.apitalents.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.talents.apitalents.dtos.EntrevistadorEsporteDTO;
+import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteDTO;
+import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteInsertDTO;
+import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteUpdateDTO;
+import com.talents.apitalents.dtos.perfil.PerfilDTO;
+import com.talents.apitalents.dtos.perfil.PerfilInsertDTO;
 import com.talents.apitalents.entities.Entrevistador;
 import com.talents.apitalents.entities.EntrevistadorEsporte;
 import com.talents.apitalents.entities.Esporte;
-import com.talents.apitalents.entities.Graduacao;
 import com.talents.apitalents.entities.PerfilEsportistaCustom;
-import com.talents.apitalents.entities.PerfilEsportistaPadrao;
 import com.talents.apitalents.repositories.EntrevistadorEsporteRepository;
 import com.talents.apitalents.repositories.EntrevistadorRepository;
 import com.talents.apitalents.repositories.EsporteRepository;
-import com.talents.apitalents.repositories.GraduacaoRepository;
-import com.talents.apitalents.repositories.PerfilEsportistaPadraoRepository;
+import com.talents.apitalents.repositories.PerfilEsportistaCustomRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,78 +25,76 @@ public class EntrevistadorEsporteService {
     private EntrevistadorEsporteRepository entrevistadorEsporteRepository;
 
     @Autowired
-    private PerfilEsportistaCustomService perfilEsportistaCustomService;
+    private PerfilEsportistaCustomRepository perfilEsportistaCustomRepository;
 
     @Autowired
     private EsporteRepository esporteRepository;
 
     @Autowired
-    private PerfilEsportistaPadraoRepository perfilEsportistaPadraoRepository;
-
-    @Autowired
     private EntrevistadorRepository entrevistadorRepository;
 
-    @Autowired
-    private GraduacaoRepository graduacaoRepository;
-
-    @Transactional(readOnly = true)
-    public List<EntrevistadorEsporteDTO> findByEntrevistador(Integer idEntrevistador) {
-        Entrevistador entrevistador = new Entrevistador();
-        entrevistador.setId(idEntrevistador);
-        List<EntrevistadorEsporte> entrevistadorEsportes = this.entrevistadorEsporteRepository
-                .findByEntrevistador(entrevistador);
-        return entrevistadorEsportes.stream()
-                .map(entrevistadorEsporte -> new EntrevistadorEsporteDTO(entrevistadorEsporte))
-                .collect(Collectors.toList());
+    @Transactional(readOnly = false)
+    public EntrevistadorEsporte create(EntrevistadorEsporteInsertDTO entrevistadorEsporteInsertDTO) {
+        String abrangencia = entrevistadorEsporteInsertDTO.getAbrangencia();
+        Integer idEsporte = entrevistadorEsporteInsertDTO.getIdEsporte();
+        Integer idEntrevistador = entrevistadorEsporteInsertDTO.getIdEntrevistador();
+        Integer tempoExpertise = entrevistadorEsporteInsertDTO.getTempoExpertise();
+        PerfilInsertDTO perfilInsertDTO = entrevistadorEsporteInsertDTO.getPerfilInsertDTO();
+        Integer agilidade = perfilInsertDTO.getAgilidade();
+        Integer coordenacaoMotora = perfilInsertDTO.getCoordenacaoMotora();
+        Integer flexibilidade = perfilInsertDTO.getFlexibilidade();
+        Integer forca = perfilInsertDTO.getForca();
+        Integer hipertrofia = perfilInsertDTO.getHipertrofia();
+        Integer potencia = perfilInsertDTO.getPotencia();
+        Integer resistencia = perfilInsertDTO.getResistencia();
+        Integer velocidade = perfilInsertDTO.getVelocidade();
+        Integer envergaduraEstatura = perfilInsertDTO.getEnvergaduraEstatura();
+        Integer comprPernasEstatura = perfilInsertDTO.getComprPernasEstatura();
+        Integer alturaTroncoCefalicaEstatura = perfilInsertDTO.getAlturaTroncoCefalicaEstatura();
+        Integer imc = perfilInsertDTO.getImc();
+        PerfilEsportistaCustom perfilEsportistaCustom = new PerfilEsportistaCustom(agilidade, coordenacaoMotora,
+                flexibilidade, forca, hipertrofia, potencia, resistencia, velocidade, envergaduraEstatura,
+                comprPernasEstatura, alturaTroncoCefalicaEstatura, imc);
+        perfilEsportistaCustom = this.perfilEsportistaCustomRepository.save(perfilEsportistaCustom);
+        Esporte esporte = this.esporteRepository.getOne(idEsporte);
+        Entrevistador entrevistador = this.entrevistadorRepository.getOne(idEntrevistador);
+        EntrevistadorEsporte entrevistadorEsporte = new EntrevistadorEsporte(entrevistador, esporte, abrangencia,
+                tempoExpertise, perfilEsportistaCustom);
+        entrevistadorEsporte = this.entrevistadorEsporteRepository.save(entrevistadorEsporte);
+        return entrevistadorEsporte;
     }
 
     @Transactional(readOnly = false)
-    public List<EntrevistadorEsporteDTO> create(List<EntrevistadorEsporteDTO> entrevistadorEsporteDTOs) {
-        List<EntrevistadorEsporteDTO> entrevistadorEsporteDTOs2 = new ArrayList<>();
-        for (EntrevistadorEsporteDTO entrevistadorEsporteDTO : entrevistadorEsporteDTOs) {
-            Esporte esporte = this.esporteRepository.getOne(entrevistadorEsporteDTO.getEsporteDTO().getId());
-            PerfilEsportistaPadrao perfilEsportistaPadrao = this.perfilEsportistaPadraoRepository
-                    .getOne(entrevistadorEsporteDTO.getEsporteDTO().getId());
-            esporte.setPerfilEsportistaPadrao(perfilEsportistaPadrao);
-            Entrevistador entrevistador = this.entrevistadorRepository
-                    .getOne(entrevistadorEsporteDTO.getEntrevistadorDTO().getId());
-            Graduacao graduacao = this.graduacaoRepository
-                    .getOne(entrevistadorEsporteDTO.getEntrevistadorDTO().getGraduacaoDTO().getId());
-            entrevistador.setGraduacao(graduacao);
-            PerfilEsportistaCustom perfilEsportistaCustom = this.perfilEsportistaCustomService
-                    .create(entrevistadorEsporteDTO.getPerfilEsportistaCustomDTO());
-            EntrevistadorEsporte entrevistadorEsporte = new EntrevistadorEsporte(entrevistador, esporte,
-                    entrevistadorEsporteDTO.getAbrangencia(), entrevistadorEsporteDTO.getTempoExpertise(),
-                    perfilEsportistaCustom);
-            entrevistadorEsporte = this.entrevistadorEsporteRepository.save(entrevistadorEsporte);
-            entrevistadorEsporteDTO = new EntrevistadorEsporteDTO(entrevistadorEsporte);
-            entrevistadorEsporteDTOs2.add(entrevistadorEsporteDTO);
-        }
-        return entrevistadorEsporteDTOs2;
-    }
-
-    public EntrevistadorEsporteDTO update(EntrevistadorEsporteDTO entrevistadorEsporteDTO) {
-        Integer idEntrevistadorEsporte = entrevistadorEsporteDTO.getId();
-        String abrangencia = entrevistadorEsporteDTO.getAbrangencia();
-        Integer tempoExpertise = entrevistadorEsporteDTO.getTempoExpertise();
-        Integer idEsporte = entrevistadorEsporteDTO.getEsporteDTO().getId();
-        Integer idPerfilEsportistaCustom = entrevistadorEsporteDTO.getPerfilEsportistaCustomDTO().getId();
-        this.perfilEsportistaCustomService.update(entrevistadorEsporteDTO.getPerfilEsportistaCustomDTO());
-        this.entrevistadorEsporteRepository.update(idEntrevistadorEsporte, abrangencia, tempoExpertise,
-                idPerfilEsportistaCustom, idEsporte);
-        EntrevistadorEsporte entrevistadorEsporte = this.entrevistadorEsporteRepository
-                .findById(entrevistadorEsporteDTO.getId()).get();
-        entrevistadorEsporteDTO = new EntrevistadorEsporteDTO(entrevistadorEsporte);
-        return entrevistadorEsporteDTO;
+    public void update(EntrevistadorEsporteUpdateDTO entrevistadorEsporteUpdateDTO) {
+        Integer id = entrevistadorEsporteUpdateDTO.getId();
+        Integer tempoExpertise = entrevistadorEsporteUpdateDTO.getTempoExpertise();
+        String abrangencia = entrevistadorEsporteUpdateDTO.getAbrangencia();
+        Integer idEsporte = entrevistadorEsporteUpdateDTO.getIdEsporte();
+        PerfilDTO perfilDTO = entrevistadorEsporteUpdateDTO.getPerfilDTO();
+        Integer idPerfil = perfilDTO.getId();
+        Integer agilidade = perfilDTO.getAgilidade();
+        Integer coordenacaoMotora = perfilDTO.getCoordenacaoMotora();
+        Integer flexibilidade = perfilDTO.getFlexibilidade();
+        Integer forca = perfilDTO.getForca();
+        Integer hipertrofia = perfilDTO.getHipertrofia();
+        Integer potencia = perfilDTO.getPotencia();
+        Integer resistencia = perfilDTO.getResistencia();
+        Integer velocidade = perfilDTO.getVelocidade();
+        Integer envergaduraEstatura = perfilDTO.getEnvergaduraEstatura();
+        Integer comprPernasEstatura = perfilDTO.getComprPernasEstatura();
+        Integer alturaTroncoCefalicaEstatura = perfilDTO.getAlturaTroncoCefalicaEstatura();
+        Integer imc = perfilDTO.getImc();
+        this.perfilEsportistaCustomRepository.update(idPerfil, agilidade, coordenacaoMotora, flexibilidade, forca,
+                hipertrofia, potencia, resistencia, velocidade, envergaduraEstatura, comprPernasEstatura,
+                alturaTroncoCefalicaEstatura, imc);
+        this.entrevistadorEsporteRepository.update(id, abrangencia, tempoExpertise, idPerfil, idEsporte);
     }
 
     @Transactional(readOnly = false)
-    @Modifying
-    public EntrevistadorEsporteDTO delete(Integer idEntrevistadorEsporte) {
-        EntrevistadorEsporte entrevistadorEsporte = this.entrevistadorEsporteRepository.findById(idEntrevistadorEsporte)
-                .get();
+    public EntrevistadorEsporteDTO delete(Integer id) {
+        EntrevistadorEsporte entrevistadorEsporte = this.entrevistadorEsporteRepository.findById(id).get();
+        this.entrevistadorEsporteRepository.deleteById(id);
         EntrevistadorEsporteDTO entrevistadorEsporteDTO = new EntrevistadorEsporteDTO(entrevistadorEsporte);
-        this.entrevistadorEsporteRepository.deleteById(idEntrevistadorEsporte);
         return entrevistadorEsporteDTO;
     }
 }

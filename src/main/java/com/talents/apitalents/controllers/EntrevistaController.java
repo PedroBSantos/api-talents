@@ -2,7 +2,8 @@ package com.talents.apitalents.controllers;
 
 import java.util.List;
 
-import com.talents.apitalents.dtos.EntrevistaDTO;
+import com.talents.apitalents.dtos.entrevista.EntrevistaDTO;
+import com.talents.apitalents.dtos.entrevista.EntrevistaInsertDTO;
 import com.talents.apitalents.services.EntrevistaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,33 +25,33 @@ public class EntrevistaController {
     @Autowired
     private EntrevistaService entrevistaService;
 
-    @GetMapping("/entrevistado/{idEntrevistado}")
-    public ResponseEntity<List<EntrevistaDTO>> findByEntrevistado(@PathVariable Integer idEntrevistado) {
-        List<EntrevistaDTO> entrevistaDTOs = this.entrevistaService.findByIdEntrevistado(idEntrevistado);
-        return ResponseEntity.status(HttpStatus.FOUND).body(entrevistaDTOs);
+    @GetMapping("/entrevistadores/{idEntrevistador}")
+    public ResponseEntity<List<EntrevistaDTO>> findByEntrevistador(@PathVariable Integer idEntrevistador) {
+        List<EntrevistaDTO> entrevistaDTOs = this.entrevistaService.findByEntrevistador(idEntrevistador);
+        return ResponseEntity.ok().body(entrevistaDTOs);
     }
 
-    @GetMapping("/entrevistador/{idEntrevistador}")
-    public ResponseEntity<List<EntrevistaDTO>> findByEntrevistador(@PathVariable Integer idEntrevistador) {
-        List<EntrevistaDTO> entrevistaDTOs = this.entrevistaService.findByIdEntrevistador(idEntrevistador);
-        return ResponseEntity.status(HttpStatus.FOUND).body(entrevistaDTOs);
+    @GetMapping("/entrevistados/{idEntrevistado}")
+    public ResponseEntity<List<EntrevistaDTO>> findByEntrevistado(@PathVariable Integer idEntrevistado) {
+        List<EntrevistaDTO> entrevistaDTOs = this.entrevistaService.findByEntrevistado(idEntrevistado);
+        return ResponseEntity.ok().body(entrevistaDTOs);
     }
 
     @PostMapping
-    public ResponseEntity<EntrevistaDTO> create(@RequestBody EntrevistaDTO entrevistaDTO) {
-        entrevistaDTO = this.entrevistaService.create(entrevistaDTO);
+    public ResponseEntity<EntrevistaDTO> create(@RequestBody EntrevistaInsertDTO entrevistaInsertDTO) {
+        EntrevistaDTO entrevistaDTO = this.entrevistaService.create(entrevistaInsertDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(entrevistaDTO);
     }
 
     @PutMapping
-    public ResponseEntity<EntrevistaDTO> update(@RequestBody EntrevistaDTO entrevistaDTO) {
-        entrevistaDTO = this.entrevistaService.update(entrevistaDTO);
-        return ResponseEntity.ok().body(entrevistaDTO);
+    public ResponseEntity<Object> update(@RequestBody EntrevistaDTO entrevistaDTO) {
+        this.entrevistaService.update(entrevistaDTO);
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/entrevista/{idEntrevista}")
-    public ResponseEntity<EntrevistaDTO> delete(@PathVariable Integer idEntrevista) {
-        EntrevistaDTO entrevistaDTO = this.entrevistaService.delete(idEntrevista);
-        return ResponseEntity.ok().body(entrevistaDTO);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {
+        this.entrevistaService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }

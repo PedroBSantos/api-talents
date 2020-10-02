@@ -3,7 +3,7 @@ package com.talents.apitalents.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.talents.apitalents.dtos.GraduacaoDTO;
+import com.talents.apitalents.dtos.graduacao.GraduacaoDTO;
 import com.talents.apitalents.entities.Graduacao;
 import com.talents.apitalents.repositories.GraduacaoRepository;
 

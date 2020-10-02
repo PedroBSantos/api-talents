@@ -3,7 +3,7 @@ package com.talents.apitalents.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.talents.apitalents.dtos.CidadeDTO;
+import com.talents.apitalents.dtos.cidade.CidadeDTO;
 import com.talents.apitalents.entities.Cidade;
 import com.talents.apitalents.repositories.CidadeRepository;
 

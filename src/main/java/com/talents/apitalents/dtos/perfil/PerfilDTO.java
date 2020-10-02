@@ -1,10 +1,8 @@
-package com.talents.apitalents.dtos;
+package com.talents.apitalents.dtos.perfil;
 
 import java.io.Serializable;
 
-import com.talents.apitalents.entities.PerfilEsportistaPadrao;
-
-public class PerfilEsportistaPadraoDTO implements Serializable {
+public class PerfilDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
@@ -21,23 +19,25 @@ public class PerfilEsportistaPadraoDTO implements Serializable {
     private Integer alturaTroncoCefalicaEstatura;
     private Integer imc;
 
-    public PerfilEsportistaPadraoDTO() {
+    public PerfilDTO(Integer id, Integer agilidade, Integer coordenacaoMotora, Integer flexibilidade, Integer forca,
+            Integer hipertrofia, Integer potencia, Integer resistencia, Integer velocidade, Integer envergaduraEstatura,
+            Integer comprPernasEstatura, Integer alturaTroncoCefalicaEstatura, Integer imc) {
+        this.id = id;
+        this.agilidade = agilidade;
+        this.coordenacaoMotora = coordenacaoMotora;
+        this.flexibilidade = flexibilidade;
+        this.forca = forca;
+        this.hipertrofia = hipertrofia;
+        this.potencia = potencia;
+        this.resistencia = resistencia;
+        this.velocidade = velocidade;
+        this.envergaduraEstatura = envergaduraEstatura;
+        this.comprPernasEstatura = comprPernasEstatura;
+        this.alturaTroncoCefalicaEstatura = alturaTroncoCefalicaEstatura;
+        this.imc = imc;
     }
 
-    public PerfilEsportistaPadraoDTO(PerfilEsportistaPadrao perfilEsportistaPadrao) {
-        this.id = perfilEsportistaPadrao.getId();
-        this.agilidade = perfilEsportistaPadrao.getAgilidade();
-        this.coordenacaoMotora = perfilEsportistaPadrao.getAgilidade();
-        this.flexibilidade = perfilEsportistaPadrao.getFlexibilidade();
-        this.forca = perfilEsportistaPadrao.getForca();
-        this.hipertrofia = perfilEsportistaPadrao.getHipertrofia();
-        this.potencia = perfilEsportistaPadrao.getPotencia();
-        this.resistencia = perfilEsportistaPadrao.getResistencia();
-        this.velocidade = perfilEsportistaPadrao.getVelocidade();
-        this.envergaduraEstatura = perfilEsportistaPadrao.getEnvergaduraEstatura();
-        this.comprPernasEstatura = perfilEsportistaPadrao.getComprPernasEstatura();
-        this.alturaTroncoCefalicaEstatura = perfilEsportistaPadrao.getAlturaTroncoCefalicaEstatura();
-        this.imc = perfilEsportistaPadrao.getImc();
+    public PerfilDTO() {
     }
 
     public Integer getId() {

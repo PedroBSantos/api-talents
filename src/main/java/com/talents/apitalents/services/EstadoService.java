@@ -3,7 +3,7 @@ package com.talents.apitalents.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.talents.apitalents.dtos.EstadoDTO;
+import com.talents.apitalents.dtos.estado.EstadoDTO;
 import com.talents.apitalents.entities.Estado;
 import com.talents.apitalents.repositories.EstadoRepository;
 

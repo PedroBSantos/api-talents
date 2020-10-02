@@ -1,14 +1,13 @@
-package com.talents.apitalents.dtos;
+package com.talents.apitalents.dtos.entrevistado;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import com.talents.apitalents.entities.Entrevistado;
+import com.talents.apitalents.dtos.endereco.EnderecoInsertDTO;
 
-public class EntrevistadoDTO implements Serializable {
+public class EntrevistadoInsertDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
     private String nome;
     private String cpf;
     private String rg;
@@ -18,31 +17,9 @@ public class EntrevistadoDTO implements Serializable {
     private String etnia;
     private String telefone;
     private LocalDate dataNascimento;
-    private EnderecoDTO enderecoDTO;
+    private EnderecoInsertDTO enderecoInsertDTO;
 
-    public EntrevistadoDTO(Entrevistado entrevistado) {
-        this.id = entrevistado.getId();
-        this.nome = entrevistado.getNome();
-        this.cpf = entrevistado.getCpf();
-        this.rg = entrevistado.getRg();
-        this.nomeMae = entrevistado.getNomeMae();
-        this.email = entrevistado.getEmail();
-        this.sexo = entrevistado.getSexo();
-        this.etnia = entrevistado.getEtnia();
-        this.telefone = entrevistado.getTelefone();
-        this.dataNascimento = entrevistado.getDataNascimento();
-        this.enderecoDTO = new EnderecoDTO(entrevistado.getEndereco());
-    }
-
-    public EntrevistadoDTO() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public EntrevistadoInsertDTO() {
     }
 
     public String getNome() {
@@ -117,11 +94,11 @@ public class EntrevistadoDTO implements Serializable {
         this.dataNascimento = dataNascimento;
     }
 
-    public EnderecoDTO getEnderecoDTO() {
-        return enderecoDTO;
+    public EnderecoInsertDTO getEnderecoInsertDTO() {
+        return enderecoInsertDTO;
     }
 
-    public void setEnderecoDTO(EnderecoDTO enderecoDTO) {
-        this.enderecoDTO = enderecoDTO;
+    public void setEnderecoInsertDTO(EnderecoInsertDTO enderecoInsertDTO) {
+        this.enderecoInsertDTO = enderecoInsertDTO;
     }
 }

@@ -1,8 +1,13 @@
-package com.talents.apitalents.dtos;
+package com.talents.apitalents.dtos.entrevistador;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteDTO;
+import com.talents.apitalents.dtos.graduacao.GraduacaoDTO;
 import com.talents.apitalents.entities.Entrevistador;
+import com.talents.apitalents.entities.EntrevistadorEsporte;
 
 public class EntrevistadorDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -12,9 +17,7 @@ public class EntrevistadorDTO implements Serializable {
     private String email;
     private String titulacao;
     private GraduacaoDTO graduacaoDTO;
-
-    public EntrevistadorDTO() {
-    }
+    private List<EntrevistadorEsporteDTO> entrevistadorEsporteDTOs;
 
     public EntrevistadorDTO(Entrevistador entrevistador) {
         this.id = entrevistador.getId();
@@ -22,6 +25,10 @@ public class EntrevistadorDTO implements Serializable {
         this.email = entrevistador.getEmail();
         this.titulacao = entrevistador.getTitulacao();
         this.graduacaoDTO = new GraduacaoDTO(entrevistador.getGraduacao());
+        this.entrevistadorEsporteDTOs = new ArrayList<>();
+        for (EntrevistadorEsporte entrevistadorEsporte : entrevistador.getEntrevistadorEsportes()) {
+            this.entrevistadorEsporteDTOs.add(new EntrevistadorEsporteDTO(entrevistadorEsporte));
+        }
     }
 
     public Integer getId() {
@@ -62,5 +69,9 @@ public class EntrevistadorDTO implements Serializable {
 
     public void setGraduacaoDTO(GraduacaoDTO graduacaoDTO) {
         this.graduacaoDTO = graduacaoDTO;
+    }
+
+    public List<EntrevistadorEsporteDTO> getEntrevistadorEsporteDTOs() {
+        return entrevistadorEsporteDTOs;
     }
 }

@@ -2,7 +2,7 @@ package com.talents.apitalents.controllers;
 
 import java.util.List;
 
-import com.talents.apitalents.dtos.EstadoDTO;
+import com.talents.apitalents.dtos.estado.EstadoDTO;
 import com.talents.apitalents.services.EstadoService;
 
 import org.springframework.beans.factory.annotation.Autowired;

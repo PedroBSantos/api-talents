@@ -1,7 +1,8 @@
-package com.talents.apitalents.dtos;
+package com.talents.apitalents.dtos.cidade;
 
 import java.io.Serializable;
 
+import com.talents.apitalents.dtos.estado.EstadoDTO;
 import com.talents.apitalents.entities.Cidade;
 
 public class CidadeDTO implements Serializable {
@@ -10,9 +11,6 @@ public class CidadeDTO implements Serializable {
     private Integer id;
     private String nome;
     private EstadoDTO estadoDTO;
-
-    public CidadeDTO() {
-    }
 
     public CidadeDTO(Cidade cidade) {
         this.id = cidade.getId();

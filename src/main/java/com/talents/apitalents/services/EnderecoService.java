@@ -1,12 +1,11 @@
 package com.talents.apitalents.services;
 
-import com.talents.apitalents.dtos.EnderecoDTO;
+import com.talents.apitalents.dtos.endereco.EnderecoInsertDTO;
+import com.talents.apitalents.dtos.endereco.EnderecoUpdateDTO;
 import com.talents.apitalents.entities.Cidade;
 import com.talents.apitalents.entities.Endereco;
-import com.talents.apitalents.entities.Estado;
 import com.talents.apitalents.repositories.CidadeRepository;
 import com.talents.apitalents.repositories.EnderecoRepository;
-import com.talents.apitalents.repositories.EstadoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,30 +20,25 @@ public class EnderecoService {
     @Autowired
     private CidadeRepository cidadeRepository;
 
-    @Autowired
-    private EstadoRepository estadoRepository;
-
     @Transactional(readOnly = false)
-    public Endereco create(EnderecoDTO enderecoDTO) {
-        Integer idCidade = enderecoDTO.getCidadeDTO().getId();
-        Integer idEstado = enderecoDTO.getCidadeDTO().getEstadoDTO().getId();
-        String rua = enderecoDTO.getRua();
-        String bairro = enderecoDTO.getBairro();
-        String complemento = enderecoDTO.getComplemento();
-        Estado estado = this.estadoRepository.getOne(idEstado);
+    public Endereco create(EnderecoInsertDTO enderecoInsertDTO) {
+        String rua = enderecoInsertDTO.getRua();
+        String bairro = enderecoInsertDTO.getBairro();
+        String complemento = enderecoInsertDTO.getComplemento();
+        Integer idCidade = enderecoInsertDTO.getIdCidade();
         Cidade cidade = this.cidadeRepository.getOne(idCidade);
-        cidade.setEstado(estado);
         Endereco endereco = new Endereco(rua, bairro, complemento, cidade);
         endereco = this.enderecoRepository.save(endereco);
         return endereco;
     }
 
-    public void update(EnderecoDTO enderecoDTO) {
-        String rua = enderecoDTO.getRua();
-        String bairro = enderecoDTO.getBairro();
-        String complemento = enderecoDTO.getComplemento();
-        Integer idCidade = enderecoDTO.getCidadeDTO().getId();
-        Integer idEndereco = enderecoDTO.getId();
-        this.enderecoRepository.update(rua, bairro, complemento, idCidade, idEndereco);
+    @Transactional(readOnly = false)
+    public void update(EnderecoUpdateDTO enderecoUpdateDTO) {
+        Integer id = enderecoUpdateDTO.getId();
+        Integer idCidade = enderecoUpdateDTO.getIdCidade();
+        String rua = enderecoUpdateDTO.getRua();
+        String bairro = enderecoUpdateDTO.getBairro();
+        String complemento = enderecoUpdateDTO.getComplemento();
+        this.enderecoRepository.update(rua, bairro, complemento, idCidade, id);
     }
 }
