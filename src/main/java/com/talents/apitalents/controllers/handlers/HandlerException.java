@@ -1,4 +1,4 @@
-package com.talents.apitalents.controllers.exceptions;
+package com.talents.apitalents.controllers.handlers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.talents.apitalents.entities.Entrevista;
+import com.talents.apitalents.entities.Entrevistado;
+import com.talents.apitalents.entities.Entrevistador;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,11 +22,10 @@ public interface EntrevistaRepository extends JpaRepository<Entrevista, Integer>
             + ":idEntrevistado, id_entrevistador = :idEntrevistador, id_esporte = :idEsporte, "
             + "id_perfil_entrevistado = :idPerfilEntrevistado WHERE id = :idEntrevista")
     void update(Integer idEntrevista, LocalDate dataEntrevista, Integer idEntrevistado, Integer idEntrevistador,
-                    Integer idEsporte, Integer idPerfilEntrevistado);
+            Integer idEsporte, Integer idPerfilEntrevistado);
 
-    @Query("SELECT entrevista FROM Entrevista entrevista WHERE id_entrevistado = :entrevistado")
-    List<Entrevista> findByEntrevistado(Integer entrevistado);
+    List<Entrevista> findByEntrevistado(Entrevistado entrevistado);
 
-    @Query("SELECT entrevista FROM Entrevista entrevista WHERE id_entrevistador = :entrevistador")
-    List<Entrevista> findByEntrevistador(Integer entrevistador);
+    List<Entrevista> findByEntrevistador(Entrevistador entrevistador);
+
 }

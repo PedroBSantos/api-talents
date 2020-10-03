@@ -44,13 +44,15 @@ public class EntrevistaService {
 
     @Transactional(readOnly = true)
     public List<EntrevistaDTO> findByEntrevistado(Integer idEntrevistado) {
-        List<Entrevista> entrevistas = this.entrevistaRepository.findByEntrevistado(idEntrevistado);
+        Entrevistado entrevistado = this.entrevistadoRepository.getOne(idEntrevistado);
+        List<Entrevista> entrevistas = this.entrevistaRepository.findByEntrevistado(entrevistado);
         return entrevistas.stream().map(entrevista -> new EntrevistaDTO(entrevista)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<EntrevistaDTO> findByEntrevistador(Integer idEntrevistador) {
-        List<Entrevista> entrevistas = this.entrevistaRepository.findByEntrevistador(idEntrevistador);
+        Entrevistador entrevistador = this.entrevistadorRepository.getOne(idEntrevistador);
+        List<Entrevista> entrevistas = this.entrevistaRepository.findByEntrevistador(entrevistador);
         return entrevistas.stream().map(entrevista -> new EntrevistaDTO(entrevista)).collect(Collectors.toList());
     }
 
