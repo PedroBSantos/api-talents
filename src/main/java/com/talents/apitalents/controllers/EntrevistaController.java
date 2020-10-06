@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/entrevistas")
+@RequestMapping(value = "/entrevistas")
 public class EntrevistaController {
 
     @Autowired
