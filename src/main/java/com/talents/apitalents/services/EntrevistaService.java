@@ -20,7 +20,6 @@ import com.talents.apitalents.repositories.EsporteRepository;
 import com.talents.apitalents.repositories.PerfilEntrevistadoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -116,7 +115,6 @@ public class EntrevistaService {
     }
 
     @Transactional(readOnly = false)
-    @Modifying
     public void delete(Integer id) {
         this.entrevistaRepository.deleteById(id);
     }

@@ -32,7 +32,6 @@ public class EnderecoService {
         return endereco;
     }
 
-    @Transactional(readOnly = false)
     public void update(EnderecoUpdateDTO enderecoUpdateDTO) {
         Integer id = enderecoUpdateDTO.getId();
         Integer idCidade = enderecoUpdateDTO.getIdCidade();

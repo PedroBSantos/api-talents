@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.talents.apitalents.dtos.endereco.EnderecoInsertDTO;
 import com.talents.apitalents.dtos.endereco.EnderecoUpdateDTO;
+import com.talents.apitalents.dtos.entrevista.EntrevistaDTO;
 import com.talents.apitalents.dtos.entrevistado.EntrevistadoDTO;
 import com.talents.apitalents.dtos.entrevistado.EntrevistadoInsertDTO;
 import com.talents.apitalents.dtos.entrevistado.EntrevistadoUpdateDTO;
@@ -22,8 +23,12 @@ public class EntrevistadoService {
 
     @Autowired
     private EntrevistadoRepository entrevistadoRepository;
+
     @Autowired
     private EnderecoService enderecoService;
+
+    @Autowired
+    private EntrevistaService entrevistaService;
 
     @Transactional(readOnly = true)
     public List<EntrevistadoDTO> findAll() {
@@ -52,7 +57,6 @@ public class EntrevistadoService {
         return entrevistadoDTO;
     }
 
-    @Transactional(readOnly = false)
     public void update(EntrevistadoUpdateDTO entrevistadoUpdateDTO) {
         Integer id = entrevistadoUpdateDTO.getId();
         String nome = entrevistadoUpdateDTO.getNome();
@@ -67,5 +71,15 @@ public class EntrevistadoService {
         EnderecoUpdateDTO enderecoUpdateDTO = entrevistadoUpdateDTO.getEnderecoUpdateDTO();
         this.enderecoService.update(enderecoUpdateDTO);
         this.entrevistadoRepository.update(nome, cpf, rg, nomeMae, email, sexo, etnia, telefone, dataNascimento, id);
+    }
+
+    @Transactional(readOnly = false)
+    public void delete(Integer idEntrevistado) {
+        Entrevistado entrevistado = this.entrevistadoRepository.findById(idEntrevistado).get();
+        List<EntrevistaDTO> entrevistaDTOs = this.entrevistaService.findByEntrevistado(idEntrevistado);
+        for (EntrevistaDTO entrevistaDTO : entrevistaDTOs) {
+            this.entrevistaService.delete(entrevistaDTO.getId());
+        }
+        this.entrevistadoRepository.delete(entrevistado);
     }
 }

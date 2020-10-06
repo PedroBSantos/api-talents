@@ -63,7 +63,6 @@ public class EntrevistadorEsporteService {
         return entrevistadorEsporte;
     }
 
-    @Transactional(readOnly = false)
     public void update(EntrevistadorEsporteUpdateDTO entrevistadorEsporteUpdateDTO) {
         Integer id = entrevistadorEsporteUpdateDTO.getId();
         Integer tempoExpertise = entrevistadorEsporteUpdateDTO.getTempoExpertise();
