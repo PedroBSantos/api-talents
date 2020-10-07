@@ -27,7 +27,7 @@ public class EntrevistaController {
     private EntrevistaService entrevistaService;
 
     @GetMapping("/entrevistadores/{idEntrevistador}")
-    @Secured({ "ROLE_ENTREVISTADOR" })
+    @Secured({ "ROLE_USER" })
     public ResponseEntity<List<EntrevistaDTO>> findByEntrevistador(@PathVariable Integer idEntrevistador) {
         List<EntrevistaDTO> entrevistaDTOs = this.entrevistaService.findByEntrevistador(idEntrevistador);
         return ResponseEntity.ok().body(entrevistaDTOs);
@@ -41,21 +41,21 @@ public class EntrevistaController {
     }
 
     @PostMapping
-    @Secured({ "ROLE_ENTREVISTADOR" })
+    @Secured({ "ROLE_ADMIN" })
     public ResponseEntity<EntrevistaDTO> create(@RequestBody EntrevistaInsertDTO entrevistaInsertDTO) {
         EntrevistaDTO entrevistaDTO = this.entrevistaService.create(entrevistaInsertDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(entrevistaDTO);
     }
 
     @PutMapping
-    @Secured({ "ROLE_ENTREVISTADOR" })
+    @Secured({ "ROLE_ADMIN" })
     public ResponseEntity<Object> update(@RequestBody EntrevistaDTO entrevistaDTO) {
         this.entrevistaService.update(entrevistaDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    @Secured({ "ROLE_ENTREVISTADOR" })
+    @Secured({ "ROLE_ADMIN" })
     public ResponseEntity<Object> delete(@PathVariable Integer id) {
         this.entrevistaService.delete(id);
         return ResponseEntity.ok().build();
