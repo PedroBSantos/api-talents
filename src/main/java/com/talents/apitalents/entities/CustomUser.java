@@ -20,7 +20,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class User implements UserDetails {
+public class CustomUser implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -32,14 +32,14 @@ public class User implements UserDetails {
     private String password;
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "usuario_funcao", joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_funcao", referencedColumnName = "id"))
-    private List<Role> roles;
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "id"))
+    private List<CustomRole> roles;
 
-    public User() {
+    public CustomUser() {
         this.roles = new ArrayList<>();
     }
 
-    public User(String username, String password) {
+    public CustomUser(String username, String password) {
         this();
         this.username = username;
         this.password = password;
@@ -53,7 +53,7 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public List<Role> getRoles() {
+    public List<CustomRole> getRoles() {
         return roles;
     }
 
@@ -108,7 +108,7 @@ public class User implements UserDetails {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
+        CustomUser other = (CustomUser) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-public class Role implements GrantedAuthority {
+public class CustomRole implements GrantedAuthority {
     private static final long serialVersionUID = 1L;
 
     @JsonIgnore
@@ -22,10 +22,10 @@ public class Role implements GrantedAuthority {
     @Column(length = 20, unique = true, nullable = false)
     private String name;
 
-    public Role() {
+    public CustomRole() {
     }
 
-    public Role(String name) {
+    public CustomRole(String name) {
         this.name = name;
     }
 
@@ -66,7 +66,7 @@ public class Role implements GrantedAuthority {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Role other = (Role) obj;
+        CustomRole other = (CustomRole) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

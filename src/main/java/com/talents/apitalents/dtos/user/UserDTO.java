@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.talents.apitalents.entities.User;
+import com.talents.apitalents.entities.CustomUser;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO implements Serializable {
@@ -17,14 +17,14 @@ public class UserDTO implements Serializable {
     private String token;
     private List<RoleDTO> roles;
 
-    public UserDTO(User user) {
+    public UserDTO(CustomUser user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.roles = user.getRoles().stream().map(role -> new RoleDTO(role)).collect(Collectors.toList());
     }
 
-    public UserDTO(User user, String token) {
+    public UserDTO(CustomUser user, String token) {
         this(user);
         this.token = token;
     }

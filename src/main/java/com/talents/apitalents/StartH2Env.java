@@ -2,8 +2,8 @@ package com.talents.apitalents;
 
 import java.util.Arrays;
 
-import com.talents.apitalents.entities.Role;
-import com.talents.apitalents.entities.User;
+import com.talents.apitalents.entities.CustomRole;
+import com.talents.apitalents.entities.CustomUser;
 import com.talents.apitalents.repositories.RoleRepository;
 import com.talents.apitalents.repositories.UserRepository;
 
@@ -25,16 +25,16 @@ public class StartH2Env {
 
     public void start() {
         if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
-            Role role1 = new Role("ROLE_USER");
-            Role role2 = new Role("ROLE_ADMIN");
-            Role role3 = new Role("ROLE_INTERVIEWER");
-            Role role4 = new Role("ROLE_INTERVIEWEE");
+            CustomRole role1 = new CustomRole("ROLE_USER");
+            CustomRole role2 = new CustomRole("ROLE_ADMIN");
+            CustomRole role3 = new CustomRole("ROLE_INTERVIEWER");
+            CustomRole role4 = new CustomRole("ROLE_INTERVIEWEE");
             role1 = this.roleRepository.save(role1);
             role2 = this.roleRepository.save(role2);
             role3 = this.roleRepository.save(role3);
             role4 = this.roleRepository.save(role4);
-            User user1 = new User("epigen@email.com", "$2a$10$tNMWVoWKxqsu7gG.yOzxAemX7Bj0eFm0PTWhmd1VTy9gfxQVN02VG");
-            User user2 = new User("talents@email.com", "$2a$10$QBj5t19wMvDd8jJaYaYgwudZNyJ8V.ZYD57J/sR/EWXzhmBQzhjfG");
+            CustomUser user1 = new CustomUser("epigen@email.com", "$2a$10$tNMWVoWKxqsu7gG.yOzxAemX7Bj0eFm0PTWhmd1VTy9gfxQVN02VG");
+            CustomUser user2 = new CustomUser("talents@email.com", "$2a$10$QBj5t19wMvDd8jJaYaYgwudZNyJ8V.ZYD57J/sR/EWXzhmBQzhjfG");
             user1.getRoles().add(role1);
             user1.getRoles().add(role2);
             user2.getRoles().add(role1);
