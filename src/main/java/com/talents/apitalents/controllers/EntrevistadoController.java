@@ -35,14 +35,14 @@ public class EntrevistadoController {
     }
 
     @PostMapping
-    @Secured({ "ROLE_ADMIN" })
+    @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWEE" })
     public ResponseEntity<EntrevistadoDTO> create(@RequestBody EntrevistadoInsertDTO entrevistadoInsertDTO) {
         EntrevistadoDTO entrevistadoDTO = this.entrevistadoService.create(entrevistadoInsertDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(entrevistadoDTO);
     }
 
     @PutMapping
-    @Secured({ "ROLE_ADMIN" })
+    @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWEE" })
     public ResponseEntity<Object> update(@RequestBody EntrevistadoUpdateDTO entrevistadoUpdateDTO) {
         this.entrevistadoService.update(entrevistadoUpdateDTO);
         return ResponseEntity.ok().build();

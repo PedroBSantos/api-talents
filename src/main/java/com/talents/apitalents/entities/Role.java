@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-public class Funcao implements GrantedAuthority {
+public class Role implements GrantedAuthority {
     private static final long serialVersionUID = 1L;
 
     @JsonIgnore
@@ -20,13 +20,13 @@ public class Funcao implements GrantedAuthority {
     private Integer id;
     @JsonIgnore
     @Column(length = 20, unique = true, nullable = false)
-    private String nome;
+    private String name;
 
-    public Funcao() {
+    public Role() {
     }
 
-    public Funcao(String nome) {
-        this.nome = nome;
+    public Role(String name) {
+        this.name = name;
     }
 
     public Integer getId() {
@@ -37,17 +37,17 @@ public class Funcao implements GrantedAuthority {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public String getAuthority() {
-        return nome;
+        return name;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Funcao implements GrantedAuthority {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Funcao other = (Funcao) obj;
+        Role other = (Role) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

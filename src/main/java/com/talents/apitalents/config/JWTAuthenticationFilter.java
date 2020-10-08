@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.talents.apitalents.entities.Usuario;
+import com.talents.apitalents.entities.User;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,9 +35,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
         try {
-            Usuario usuario = new ObjectMapper().readValue(request.getInputStream(), Usuario.class);
+            User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
             return this.authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword()));
+                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
@@ -46,7 +46,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
-        String username = ((Usuario) authResult.getPrincipal()).getUsername() ;
+        String username = ((User) authResult.getPrincipal()).getUsername() ;
         String token = Jwts.builder().setSubject(username)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET).compact();

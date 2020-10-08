@@ -1,7 +1,7 @@
 package com.talents.apitalents.services;
 
-import com.talents.apitalents.entities.Usuario;
-import com.talents.apitalents.repositories.UsuarioRepository;
+import com.talents.apitalents.entities.User;
+import com.talents.apitalents.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = this.usuarioRepository.findByUsername(username);
-        if (usuario == null) {
+        User user = this.userRepository.findByUsername(username);
+        if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return usuario;
+        return user;
     }
 }

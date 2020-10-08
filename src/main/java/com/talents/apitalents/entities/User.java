@@ -20,7 +20,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class Usuario implements UserDetails {
+public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -33,13 +33,13 @@ public class Usuario implements UserDetails {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_funcao", joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_funcao", referencedColumnName = "id"))
-    private List<Funcao> funcoes;
+    private List<Role> roles;
 
-    public Usuario() {
-        this.funcoes = new ArrayList<>();
+    public User() {
+        this.roles = new ArrayList<>();
     }
 
-    public Usuario(String username, String password) {
+    public User(String username, String password) {
         this();
         this.username = username;
         this.password = password;
@@ -53,13 +53,13 @@ public class Usuario implements UserDetails {
         this.id = id;
     }
 
-    public List<Funcao> getFuncoes() {
-        return funcoes;
+    public List<Role> getRoles() {
+        return roles;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return funcoes;
+        return roles;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class Usuario implements UserDetails {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Usuario other = (Usuario) obj;
+        User other = (User) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
