@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -24,26 +26,23 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(length = 100, nullable = false)
-    private String nome;
     @Column(length = 100, nullable = false, unique = true)
-    private String email;
+    private String username;
     @Column(length = 100, nullable = false)
-    private String senha;
+    private String password;
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "usuario_funcao", joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "id"), 
-               inverseJoinColumns = @JoinColumn(name = "id_funcao", referencedColumnName = "id"))
+    @JoinTable(name = "usuario_funcao", joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_funcao", referencedColumnName = "id"))
     private List<Funcao> funcoes;
 
     public Usuario() {
         this.funcoes = new ArrayList<>();
     }
 
-    public Usuario(String nome, String email, String senha) {
+    public Usuario(String username, String password) {
         this();
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
+        this.username = username;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -52,30 +51,6 @@ public class Usuario implements UserDetails {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public List<Funcao> getFuncoes() {
@@ -89,12 +64,12 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getPassword() {
-        return senha;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override

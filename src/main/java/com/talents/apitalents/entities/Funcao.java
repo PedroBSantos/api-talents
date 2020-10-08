@@ -5,15 +5,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 public class Funcao implements GrantedAuthority {
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @JsonIgnore
     @Column(length = 20, unique = true, nullable = false)
     private String nome;
 
