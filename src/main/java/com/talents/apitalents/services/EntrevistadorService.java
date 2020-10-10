@@ -46,13 +46,13 @@ public class EntrevistadorService {
         Graduacao graduacao = this.graduacaoRepository.getOne(idGraduacao);
         entrevistador.setGraduacao(graduacao);
         entrevistador = this.entrevistadorRepository.save(entrevistador);
+        EntrevistadorDTO entrevistadorDTO = new EntrevistadorDTO(entrevistador);
         for (EntrevistadorEsporteInsertDTO entrevistadorEsporteInsertDTO : entrevistadorInsertDTO
                 .getEntrevistadorEsporteInsertDTOs()) {
             entrevistadorEsporteInsertDTO.setIdEntrevistador(entrevistador.getId());
-            var entrevistadorEsporte = this.entrevistadorEsporteService.create(entrevistadorEsporteInsertDTO);
-            entrevistador.getEntrevistadorEsportes().add(entrevistadorEsporte);
+            var entrevistadorEsporteDTO = this.entrevistadorEsporteService.create(entrevistadorEsporteInsertDTO);
+            entrevistadorDTO.getEntrevistadorEsporteDTOs().add(entrevistadorEsporteDTO);
         }
-        EntrevistadorDTO entrevistadorDTO = new EntrevistadorDTO(entrevistador);
         return entrevistadorDTO;
     }
 

@@ -5,6 +5,8 @@ import java.util.List;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorDTO;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorInsertDTO;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorUpdateDTO;
+import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteDTO;
+import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteInsertDTO;
 import com.talents.apitalents.services.EntrevistadorEsporteService;
 import com.talents.apitalents.services.EntrevistadorService;
 
@@ -43,6 +45,15 @@ public class EntrevistadorController {
     public ResponseEntity<EntrevistadorDTO> create(@RequestBody EntrevistadorInsertDTO entrevistadorInsertDTO) {
         EntrevistadorDTO entrevistadorDTO = this.entrevistadorService.create(entrevistadorInsertDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(entrevistadorDTO);
+    }
+
+    @PostMapping("/entrevistadoresportes")
+    @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWER" })
+    public ResponseEntity<EntrevistadorEsporteDTO> create(
+            @RequestBody EntrevistadorEsporteInsertDTO entrevistadorEsporteInsertDTO) {
+        EntrevistadorEsporteDTO entrevistadorEsporteDTO = this.entrevistadorEsporteService
+                .create(entrevistadorEsporteInsertDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(entrevistadorEsporteDTO);
     }
 
     @PutMapping

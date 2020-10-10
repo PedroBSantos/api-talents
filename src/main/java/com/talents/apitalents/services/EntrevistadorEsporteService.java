@@ -1,5 +1,6 @@
 package com.talents.apitalents.services;
 
+import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteDTO;
 import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteInsertDTO;
 import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteUpdateDTO;
 import com.talents.apitalents.dtos.perfil.PerfilDTO;
@@ -33,7 +34,7 @@ public class EntrevistadorEsporteService {
     private EntrevistadorRepository entrevistadorRepository;
 
     @Transactional(readOnly = false)
-    public EntrevistadorEsporte create(EntrevistadorEsporteInsertDTO entrevistadorEsporteInsertDTO) {
+    public EntrevistadorEsporteDTO create(EntrevistadorEsporteInsertDTO entrevistadorEsporteInsertDTO) {
         String abrangencia = entrevistadorEsporteInsertDTO.getAbrangencia();
         Integer idEsporte = entrevistadorEsporteInsertDTO.getIdEsporte();
         Integer idEntrevistador = entrevistadorEsporteInsertDTO.getIdEntrevistador();
@@ -60,7 +61,8 @@ public class EntrevistadorEsporteService {
         EntrevistadorEsporte entrevistadorEsporte = new EntrevistadorEsporte(entrevistador, esporte, abrangencia,
                 tempoExpertise, perfilEsportistaCustom);
         entrevistadorEsporte = this.entrevistadorEsporteRepository.save(entrevistadorEsporte);
-        return entrevistadorEsporte;
+        EntrevistadorEsporteDTO entrevistadorEsporteDTO = new EntrevistadorEsporteDTO(entrevistadorEsporte);
+        return entrevistadorEsporteDTO;
     }
 
     public void update(EntrevistadorEsporteUpdateDTO entrevistadorEsporteUpdateDTO) {
