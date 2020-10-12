@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 public class Entrevista implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -32,6 +35,7 @@ public class Entrevista implements Serializable {
     private Esporte esporte;
     @OneToOne
     @JoinColumn(name = "idPerfilEntrevistado")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private PerfilEntrevistado perfilEntrevistado;
 
     public Entrevista() {

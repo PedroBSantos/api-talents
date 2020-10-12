@@ -46,18 +46,24 @@ public class EntrevistadorController {
     }
 
     @PostMapping
-    @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWER" })
+    @Secured({ "ROLE_USER" })
     public ResponseEntity<EntrevistadorDTO> create(@RequestBody EntrevistadorInsertDTO entrevistadorInsertDTO) {
         EntrevistadorDTO entrevistadorDTO = this.entrevistadorService.create(entrevistadorInsertDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(entrevistadorDTO);
     }
 
-    @PostMapping("/entrevistadoresportes")
-    @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWER" })
-    public ResponseEntity<Object> create(
-            @RequestBody List<EntrevistadorEsporteInsertDTO> entrevistadorEsporteInsertDTOs) {
-        this.entrevistadorEsporteService.create(entrevistadorEsporteInsertDTOs);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @GetMapping("/with-email/{email}")
+    @Secured({ "ROLE_USER" })
+    public ResponseEntity<EntrevistadorDTO> findByEmail(@PathVariable String email) {
+        EntrevistadorDTO entrevistadorDTO = this.entrevistadorService.findByEmail(email);
+        return ResponseEntity.ok().body(entrevistadorDTO);
+    }
+
+    @GetMapping("/with-id/{id}")
+    @Secured({ "ROLE_USER" })
+    public ResponseEntity<EntrevistadorDTO> findById(@PathVariable Integer id) {
+        EntrevistadorDTO entrevistadorDTO = this.entrevistadorService.findById(id);
+        return ResponseEntity.ok().body(entrevistadorDTO);
     }
 
     @PutMapping
@@ -67,7 +73,22 @@ public class EntrevistadorController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/entrevistadoresportes/{id}")
+    @DeleteMapping("/{idEntrevistador}")
+    @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWER" })
+    public ResponseEntity<Object> deleteEntrevistador(@PathVariable Integer idEntrevistador) {
+        this.entrevistadorService.delete(idEntrevistador);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/entrevistador-esportes")
+    @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWER" })
+    public ResponseEntity<Object> create(
+            @RequestBody List<EntrevistadorEsporteInsertDTO> entrevistadorEsporteInsertDTOs) {
+        this.entrevistadorEsporteService.create(entrevistadorEsporteInsertDTOs);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("/entrevistador-esportes/{id}")
     @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWER" })
     public ResponseEntity<Object> delete(@PathVariable Integer id) {
         this.entrevistadorEsporteService.delete(id);

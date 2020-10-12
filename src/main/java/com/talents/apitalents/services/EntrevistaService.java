@@ -43,14 +43,14 @@ public class EntrevistaService {
 
     @Transactional(readOnly = true)
     public List<EntrevistaDTO> findByEntrevistado(Integer idEntrevistado) {
-        Entrevistado entrevistado = this.entrevistadoRepository.getOne(idEntrevistado);
+        Entrevistado entrevistado = this.entrevistadoRepository.findById(idEntrevistado).get();
         List<Entrevista> entrevistas = this.entrevistaRepository.findByEntrevistado(entrevistado);
         return entrevistas.stream().map(entrevista -> new EntrevistaDTO(entrevista)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<EntrevistaDTO> findByEntrevistador(Integer idEntrevistador) {
-        Entrevistador entrevistador = this.entrevistadorRepository.getOne(idEntrevistador);
+        Entrevistador entrevistador = this.entrevistadorRepository.findById(idEntrevistador).get();
         List<Entrevista> entrevistas = this.entrevistaRepository.findByEntrevistador(entrevistador);
         return entrevistas.stream().map(entrevista -> new EntrevistaDTO(entrevista)).collect(Collectors.toList());
     }
@@ -116,6 +116,7 @@ public class EntrevistaService {
 
     @Transactional(readOnly = false)
     public void delete(Integer id) {
-        this.entrevistaRepository.deleteById(id);
+        Entrevista entrevista = this.entrevistaRepository.findById(id).get();
+        this.entrevistaRepository.delete(entrevista);
     }
 }

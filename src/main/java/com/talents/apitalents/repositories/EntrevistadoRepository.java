@@ -19,5 +19,7 @@ public interface EntrevistadoRepository extends JpaRepository<Entrevistado, Inte
             + "sexo = :sexo, etnia = :etnia, telefone = :telefone, data_nascimento = :dataNascimento WHERE id = "
             + ":idEntrevistado")
     void update(String nome, String cpf, String rg, String nomeMae, String email, String sexo, String etnia,
-            String telefone, LocalDate dataNascimento, Integer idEntrevistado);
+                    String telefone, LocalDate dataNascimento, Integer idEntrevistado);
+            
+    Entrevistado findByEmail(String email);
 }

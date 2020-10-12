@@ -6,13 +6,13 @@ import java.util.stream.Collectors;
 
 import com.talents.apitalents.dtos.endereco.EnderecoInsertDTO;
 import com.talents.apitalents.dtos.endereco.EnderecoUpdateDTO;
-import com.talents.apitalents.dtos.entrevista.EntrevistaDTO;
 import com.talents.apitalents.dtos.entrevistado.EntrevistadoDTO;
 import com.talents.apitalents.dtos.entrevistado.EntrevistadoInsertDTO;
 import com.talents.apitalents.dtos.entrevistado.EntrevistadoUpdateDTO;
 import com.talents.apitalents.entities.Endereco;
 import com.talents.apitalents.entities.Entrevistado;
 import com.talents.apitalents.repositories.EntrevistadoRepository;
+import com.talents.apitalents.services.exceptions.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,14 +27,28 @@ public class EntrevistadoService {
     @Autowired
     private EnderecoService enderecoService;
 
-    @Autowired
-    private EntrevistaService entrevistaService;
-
     @Transactional(readOnly = true)
     public List<EntrevistadoDTO> findAll() {
         List<Entrevistado> entrevistados = this.entrevistadoRepository.findAll();
         return entrevistados.stream().map(entrevistado -> new EntrevistadoDTO(entrevistado))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public EntrevistadoDTO findByEmail(String email) {
+        Entrevistado entrevistado = this.entrevistadoRepository.findByEmail(email);
+        if (entrevistado == null) {
+            throw new EntityNotFoundException("No data found with email: " + email);
+        }
+        EntrevistadoDTO entrevistadoDTO = new EntrevistadoDTO(entrevistado);
+        return entrevistadoDTO;
+    }
+
+    @Transactional(readOnly = true)
+    public EntrevistadoDTO findById(Integer id) {
+        Entrevistado entrevistado = this.entrevistadoRepository.findById(id).get();
+        EntrevistadoDTO entrevistadoDTO = new EntrevistadoDTO(entrevistado);
+        return entrevistadoDTO;
     }
 
     @Transactional(readOnly = false)
@@ -76,10 +90,12 @@ public class EntrevistadoService {
     @Transactional(readOnly = false)
     public void delete(Integer idEntrevistado) {
         Entrevistado entrevistado = this.entrevistadoRepository.findById(idEntrevistado).get();
-        List<EntrevistaDTO> entrevistaDTOs = this.entrevistaService.findByEntrevistado(idEntrevistado);
-        for (EntrevistaDTO entrevistaDTO : entrevistaDTOs) {
-            this.entrevistaService.delete(entrevistaDTO.getId());
-        }
+        // List<EntrevistaDTO> entrevistaDTOs =
+        // this.entrevistaService.findByEntrevistado(idEntrevistado);
+        // for (EntrevistaDTO entrevistaDTO : entrevistaDTOs) {
+        // this.entrevistaService.delete(entrevistaDTO.getId());
+        // }
+        // this.entrevistadoRepository.delete(entrevistado);
         this.entrevistadoRepository.delete(entrevistado);
     }
 }

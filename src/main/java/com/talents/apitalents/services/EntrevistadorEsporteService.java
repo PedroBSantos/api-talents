@@ -102,6 +102,7 @@ public class EntrevistadorEsporteService {
 
     @Transactional(readOnly = false)
     public void delete(Integer id) {
-        this.entrevistadorEsporteRepository.deleteById(id);
+        EntrevistadorEsporte entrevistadorEsporte = this.entrevistadorEsporteRepository.findById(id).get();
+        this.entrevistadorEsporteRepository.delete(entrevistadorEsporte);
     }
 }

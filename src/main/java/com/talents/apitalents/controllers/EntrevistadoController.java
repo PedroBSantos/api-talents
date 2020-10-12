@@ -39,6 +39,20 @@ public class EntrevistadoController {
         return ResponseEntity.ok().body(entrevistadoDTOs);
     }
 
+    @GetMapping("/with-email/{email}")
+    @Secured({ "ROLE_USER" })
+    public ResponseEntity<EntrevistadoDTO> findByEmail(@PathVariable String email) {
+        EntrevistadoDTO entrevistadoDTO = this.entrevistadoService.findByEmail(email);
+        return ResponseEntity.ok().body(entrevistadoDTO);
+    }
+
+    @GetMapping("/with-id/{id}")
+    @Secured({ "ROLE_USER" })
+    public ResponseEntity<EntrevistadoDTO> findById(@PathVariable Integer id) {
+        EntrevistadoDTO entrevistadoDTO = this.entrevistadoService.findById(id);
+        return ResponseEntity.ok().body(entrevistadoDTO);
+    }
+
     @GetMapping("/{idEntrevistado}/entrevistas")
     @Secured({ "ROLE_USER" })
     public ResponseEntity<List<EntrevistaDTO>> findEntrevistas(@PathVariable Integer idEntrevistado) {
@@ -47,7 +61,7 @@ public class EntrevistadoController {
     }
 
     @PostMapping
-    @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWEE" })
+    @Secured({ "ROLE_USER" })
     public ResponseEntity<EntrevistadoDTO> create(@RequestBody EntrevistadoInsertDTO entrevistadoInsertDTO) {
         EntrevistadoDTO entrevistadoDTO = this.entrevistadoService.create(entrevistadoInsertDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(entrevistadoDTO);

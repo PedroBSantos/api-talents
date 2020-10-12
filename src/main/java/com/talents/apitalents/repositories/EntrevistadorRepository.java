@@ -16,4 +16,6 @@ public interface EntrevistadorRepository extends JpaRepository<Entrevistador, In
     @Query("UPDATE Entrevistador SET nome = :nome, email = :email, titulacao = :titulacao, "
             + "id_graduacao = :idGraduacao WHERE id = :idEntrevistador")
     void update(String nome, String email, String titulacao, Integer idGraduacao, Integer idEntrevistador);
+
+    Entrevistador findByEmail(String email);
 }

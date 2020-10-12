@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.NoSuchElementException;
 
+import com.talents.apitalents.services.exceptions.EntityNotFoundException;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
@@ -16,7 +18,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 public class HandlerException extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ DataIntegrityViolationException.class, EmptyResultDataAccessException.class,
-            NoSuchElementException.class })
+            NoSuchElementException.class, EntityNotFoundException.class })
     public ResponseEntity<Object> dataIntegrityViolationException(Exception exception) {
         return ResponseEntity.notFound().build();
     }

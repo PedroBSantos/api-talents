@@ -10,6 +10,7 @@ import com.talents.apitalents.entities.Entrevistador;
 import com.talents.apitalents.entities.Graduacao;
 import com.talents.apitalents.repositories.EntrevistadorRepository;
 import com.talents.apitalents.repositories.GraduacaoRepository;
+import com.talents.apitalents.services.exceptions.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,23 @@ public class EntrevistadorService {
         List<Entrevistador> entrevistadores = this.entrevistadorRepository.findAll();
         return entrevistadores.stream().map(entrevistador -> new EntrevistadorDTO(entrevistador))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public EntrevistadorDTO findById(Integer id) {
+        Entrevistador entrevistador = this.entrevistadorRepository.findById(id).get();
+        EntrevistadorDTO entrevistadorDTO = new EntrevistadorDTO(entrevistador);
+        return entrevistadorDTO;
+    }
+
+    @Transactional(readOnly = true)
+    public EntrevistadorDTO findByEmail(String email) {
+        Entrevistador entrevistador = this.entrevistadorRepository.findByEmail(email);
+        if (entrevistador == null) {
+            throw new EntityNotFoundException("No data found with email: " + email);
+        }
+        EntrevistadorDTO entrevistadorDTO = new EntrevistadorDTO(entrevistador);
+        return entrevistadorDTO;
     }
 
     @Transactional(readOnly = false)
@@ -57,5 +75,10 @@ public class EntrevistadorService {
         this.entrevistadorRepository.findById(id).get();
         this.entrevistadorRepository.update(nome, email, titulacao, idGraduacao, id);
         this.entrevistadorEsporteService.update(entrevistadorUpdateDTO.getEntrevistadorEsporteUpdateDTOs());
+    }
+
+    public void delete(Integer idEntrevistador) {
+        Entrevistador entrevistador = this.entrevistadorRepository.findById(idEntrevistador).get();
+        this.entrevistadorRepository.delete(entrevistador);
     }
 }
