@@ -74,4 +74,8 @@ public class EntrevistadorDTO implements Serializable {
     public List<EntrevistadorEsporteDTO> getEntrevistadorEsporteDTOs() {
         return entrevistadorEsporteDTOs;
     }
+
+    public void setEntrevistadorEsporteDTOs(List<EntrevistadorEsporteDTO> entrevistadorEsporteDTOs) {
+        this.entrevistadorEsporteDTOs = entrevistadorEsporteDTOs;
+    }
 }

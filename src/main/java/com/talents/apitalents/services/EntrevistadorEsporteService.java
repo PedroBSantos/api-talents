@@ -1,5 +1,8 @@
 package com.talents.apitalents.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteDTO;
 import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteInsertDTO;
 import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteUpdateDTO;
@@ -34,60 +37,67 @@ public class EntrevistadorEsporteService {
     private EntrevistadorRepository entrevistadorRepository;
 
     @Transactional(readOnly = false)
-    public EntrevistadorEsporteDTO create(EntrevistadorEsporteInsertDTO entrevistadorEsporteInsertDTO) {
-        String abrangencia = entrevistadorEsporteInsertDTO.getAbrangencia();
-        Integer idEsporte = entrevistadorEsporteInsertDTO.getIdEsporte();
-        Integer idEntrevistador = entrevistadorEsporteInsertDTO.getIdEntrevistador();
-        Integer tempoExpertise = entrevistadorEsporteInsertDTO.getTempoExpertise();
-        PerfilInsertDTO perfilInsertDTO = entrevistadorEsporteInsertDTO.getPerfilInsertDTO();
-        Integer agilidade = perfilInsertDTO.getAgilidade();
-        Integer coordenacaoMotora = perfilInsertDTO.getCoordenacaoMotora();
-        Integer flexibilidade = perfilInsertDTO.getFlexibilidade();
-        Integer forca = perfilInsertDTO.getForca();
-        Integer hipertrofia = perfilInsertDTO.getHipertrofia();
-        Integer potencia = perfilInsertDTO.getPotencia();
-        Integer resistencia = perfilInsertDTO.getResistencia();
-        Integer velocidade = perfilInsertDTO.getVelocidade();
-        Integer envergaduraEstatura = perfilInsertDTO.getEnvergaduraEstatura();
-        Integer comprPernasEstatura = perfilInsertDTO.getComprPernasEstatura();
-        Integer alturaTroncoCefalicaEstatura = perfilInsertDTO.getAlturaTroncoCefalicaEstatura();
-        Integer imc = perfilInsertDTO.getImc();
-        PerfilEsportistaCustom perfilEsportistaCustom = new PerfilEsportistaCustom(agilidade, coordenacaoMotora,
-                flexibilidade, forca, hipertrofia, potencia, resistencia, velocidade, envergaduraEstatura,
-                comprPernasEstatura, alturaTroncoCefalicaEstatura, imc);
-        perfilEsportistaCustom = this.perfilEsportistaCustomRepository.save(perfilEsportistaCustom);
-        Esporte esporte = this.esporteRepository.getOne(idEsporte);
-        Entrevistador entrevistador = this.entrevistadorRepository.getOne(idEntrevistador);
-        EntrevistadorEsporte entrevistadorEsporte = new EntrevistadorEsporte(entrevistador, esporte, abrangencia,
-                tempoExpertise, perfilEsportistaCustom);
-        entrevistadorEsporte = this.entrevistadorEsporteRepository.save(entrevistadorEsporte);
-        EntrevistadorEsporteDTO entrevistadorEsporteDTO = new EntrevistadorEsporteDTO(entrevistadorEsporte);
-        return entrevistadorEsporteDTO;
+    public List<EntrevistadorEsporteDTO> create(List<EntrevistadorEsporteInsertDTO> entrevistadorEsporteInsertDTOs) {
+        List<EntrevistadorEsporteDTO> entrevistadorEsporteDTOs = new ArrayList<>();
+        for (EntrevistadorEsporteInsertDTO entrevistadorEsporteInsertDTO : entrevistadorEsporteInsertDTOs) {
+            String abrangencia = entrevistadorEsporteInsertDTO.getAbrangencia();
+            Integer idEsporte = entrevistadorEsporteInsertDTO.getIdEsporte();
+            Integer idEntrevistador = entrevistadorEsporteInsertDTO.getIdEntrevistador();
+            Integer tempoExpertise = entrevistadorEsporteInsertDTO.getTempoExpertise();
+            PerfilInsertDTO perfilInsertDTO = entrevistadorEsporteInsertDTO.getPerfilInsertDTO();
+            Integer agilidade = perfilInsertDTO.getAgilidade();
+            Integer coordenacaoMotora = perfilInsertDTO.getCoordenacaoMotora();
+            Integer flexibilidade = perfilInsertDTO.getFlexibilidade();
+            Integer forca = perfilInsertDTO.getForca();
+            Integer hipertrofia = perfilInsertDTO.getHipertrofia();
+            Integer potencia = perfilInsertDTO.getPotencia();
+            Integer resistencia = perfilInsertDTO.getResistencia();
+            Integer velocidade = perfilInsertDTO.getVelocidade();
+            Integer envergaduraEstatura = perfilInsertDTO.getEnvergaduraEstatura();
+            Integer comprPernasEstatura = perfilInsertDTO.getComprPernasEstatura();
+            Integer alturaTroncoCefalicaEstatura = perfilInsertDTO.getAlturaTroncoCefalicaEstatura();
+            Integer imc = perfilInsertDTO.getImc();
+            PerfilEsportistaCustom perfilEsportistaCustom = new PerfilEsportistaCustom(agilidade, coordenacaoMotora,
+                    flexibilidade, forca, hipertrofia, potencia, resistencia, velocidade, envergaduraEstatura,
+                    comprPernasEstatura, alturaTroncoCefalicaEstatura, imc);
+            perfilEsportistaCustom = this.perfilEsportistaCustomRepository.save(perfilEsportistaCustom);
+            Esporte esporte = this.esporteRepository.getOne(idEsporte);
+            Entrevistador entrevistador = this.entrevistadorRepository.getOne(idEntrevistador);
+            EntrevistadorEsporte entrevistadorEsporte = new EntrevistadorEsporte(entrevistador, esporte, abrangencia,
+                    tempoExpertise, perfilEsportistaCustom);
+            entrevistadorEsporte = this.entrevistadorEsporteRepository.save(entrevistadorEsporte);
+            EntrevistadorEsporteDTO entrevistadorEsporteDTO = new EntrevistadorEsporteDTO(entrevistadorEsporte);
+            entrevistadorEsporteDTOs.add(entrevistadorEsporteDTO);
+        }
+        return entrevistadorEsporteDTOs;
     }
 
-    public void update(EntrevistadorEsporteUpdateDTO entrevistadorEsporteUpdateDTO) {
-        Integer id = entrevistadorEsporteUpdateDTO.getId();
-        Integer tempoExpertise = entrevistadorEsporteUpdateDTO.getTempoExpertise();
-        String abrangencia = entrevistadorEsporteUpdateDTO.getAbrangencia();
-        Integer idEsporte = entrevistadorEsporteUpdateDTO.getIdEsporte();
-        PerfilDTO perfilDTO = entrevistadorEsporteUpdateDTO.getPerfilDTO();
-        Integer idPerfil = perfilDTO.getId();
-        Integer agilidade = perfilDTO.getAgilidade();
-        Integer coordenacaoMotora = perfilDTO.getCoordenacaoMotora();
-        Integer flexibilidade = perfilDTO.getFlexibilidade();
-        Integer forca = perfilDTO.getForca();
-        Integer hipertrofia = perfilDTO.getHipertrofia();
-        Integer potencia = perfilDTO.getPotencia();
-        Integer resistencia = perfilDTO.getResistencia();
-        Integer velocidade = perfilDTO.getVelocidade();
-        Integer envergaduraEstatura = perfilDTO.getEnvergaduraEstatura();
-        Integer comprPernasEstatura = perfilDTO.getComprPernasEstatura();
-        Integer alturaTroncoCefalicaEstatura = perfilDTO.getAlturaTroncoCefalicaEstatura();
-        Integer imc = perfilDTO.getImc();
-        this.perfilEsportistaCustomRepository.update(idPerfil, agilidade, coordenacaoMotora, flexibilidade, forca,
-                hipertrofia, potencia, resistencia, velocidade, envergaduraEstatura, comprPernasEstatura,
-                alturaTroncoCefalicaEstatura, imc);
-        this.entrevistadorEsporteRepository.update(id, abrangencia, tempoExpertise, idPerfil, idEsporte);
+    public void update(List<EntrevistadorEsporteUpdateDTO> entrevistadorEsporteUpdateDTOs) {
+        for(EntrevistadorEsporteUpdateDTO entrevistadorEsporteUpdateDTO : entrevistadorEsporteUpdateDTOs) {
+            Integer id = entrevistadorEsporteUpdateDTO.getId();
+            Integer tempoExpertise = entrevistadorEsporteUpdateDTO.getTempoExpertise();
+            String abrangencia = entrevistadorEsporteUpdateDTO.getAbrangencia();
+            Integer idEsporte = entrevistadorEsporteUpdateDTO.getIdEsporte();
+            PerfilDTO perfilDTO = entrevistadorEsporteUpdateDTO.getPerfilDTO();
+            Integer idPerfil = perfilDTO.getId();
+            Integer agilidade = perfilDTO.getAgilidade();
+            Integer coordenacaoMotora = perfilDTO.getCoordenacaoMotora();
+            Integer flexibilidade = perfilDTO.getFlexibilidade();
+            Integer forca = perfilDTO.getForca();
+            Integer hipertrofia = perfilDTO.getHipertrofia();
+            Integer potencia = perfilDTO.getPotencia();
+            Integer resistencia = perfilDTO.getResistencia();
+            Integer velocidade = perfilDTO.getVelocidade();
+            Integer envergaduraEstatura = perfilDTO.getEnvergaduraEstatura();
+            Integer comprPernasEstatura = perfilDTO.getComprPernasEstatura();
+            Integer alturaTroncoCefalicaEstatura = perfilDTO.getAlturaTroncoCefalicaEstatura();
+            Integer imc = perfilDTO.getImc();
+            this.entrevistadorEsporteRepository.findById(id).get();
+            this.perfilEsportistaCustomRepository.update(idPerfil, agilidade, coordenacaoMotora, flexibilidade, forca,
+                    hipertrofia, potencia, resistencia, velocidade, envergaduraEstatura, comprPernasEstatura,
+                    alturaTroncoCefalicaEstatura, imc);
+            this.entrevistadorEsporteRepository.update(id, abrangencia, tempoExpertise, idPerfil, idEsporte);
+        }
     }
 
     @Transactional(readOnly = false)

@@ -33,8 +33,10 @@ public class StartH2Env {
             role2 = this.roleRepository.save(role2);
             role3 = this.roleRepository.save(role3);
             role4 = this.roleRepository.save(role4);
-            CustomUser user1 = new CustomUser("epigen@email.com", "$2a$10$tNMWVoWKxqsu7gG.yOzxAemX7Bj0eFm0PTWhmd1VTy9gfxQVN02VG");
-            CustomUser user2 = new CustomUser("talents@email.com", "$2a$10$QBj5t19wMvDd8jJaYaYgwudZNyJ8V.ZYD57J/sR/EWXzhmBQzhjfG");
+            CustomUser user1 = new CustomUser("epigen@email.com",
+                    "$2a$10$tNMWVoWKxqsu7gG.yOzxAemX7Bj0eFm0PTWhmd1VTy9gfxQVN02VG");
+            CustomUser user2 = new CustomUser("talents@email.com",
+                    "$2a$10$QBj5t19wMvDd8jJaYaYgwudZNyJ8V.ZYD57J/sR/EWXzhmBQzhjfG");
             user1.getRoles().add(role1);
             user1.getRoles().add(role2);
             user2.getRoles().add(role1);

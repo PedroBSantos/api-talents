@@ -1,9 +1,6 @@
 package com.talents.apitalents.dtos.entrevistador;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteInsertDTO;
 
 public class EntrevistadorInsertDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -12,7 +9,6 @@ public class EntrevistadorInsertDTO implements Serializable {
     private String nome;
     private String email;
     private String titulacao;
-    private List<EntrevistadorEsporteInsertDTO> entrevistadorEsporteInsertDTOs;
 
     public EntrevistadorInsertDTO() {
     }
@@ -47,13 +43,5 @@ public class EntrevistadorInsertDTO implements Serializable {
 
     public void setTitulacao(String titulacao) {
         this.titulacao = titulacao;
-    }
-
-    public List<EntrevistadorEsporteInsertDTO> getEntrevistadorEsporteInsertDTOs() {
-        return entrevistadorEsporteInsertDTOs;
-    }
-
-    public void setEntrevistadorEsporteInsertDTOs(List<EntrevistadorEsporteInsertDTO> entrevistadorEsporteInsertDTOs) {
-        this.entrevistadorEsporteInsertDTOs = entrevistadorEsporteInsertDTOs;
     }
 }

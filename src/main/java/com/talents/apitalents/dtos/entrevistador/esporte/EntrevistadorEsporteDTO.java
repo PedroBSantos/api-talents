@@ -2,7 +2,6 @@ package com.talents.apitalents.dtos.entrevistador.esporte;
 
 import java.io.Serializable;
 
-import com.talents.apitalents.dtos.esporte.EsporteDTO;
 import com.talents.apitalents.dtos.perfil.PerfilDTO;
 import com.talents.apitalents.entities.EntrevistadorEsporte;
 import com.talents.apitalents.entities.PerfilEsportistaCustom;
@@ -14,7 +13,7 @@ public class EntrevistadorEsporteDTO implements Serializable {
     private Integer idEntrevistador;
     private String abrangencia;
     private Integer tempoExpertise;
-    private EsporteDTO esporteDTO;
+    private String esporte;
     private PerfilDTO perfilCustom;
 
     public EntrevistadorEsporteDTO(EntrevistadorEsporte entrevistadorEsporte) {
@@ -22,7 +21,7 @@ public class EntrevistadorEsporteDTO implements Serializable {
         this.abrangencia = entrevistadorEsporte.getAbrangencia();
         this.tempoExpertise = entrevistadorEsporte.getTempoExpertise();
         this.idEntrevistador = entrevistadorEsporte.getEntrevistador().getId();
-        this.esporteDTO = new EsporteDTO(entrevistadorEsporte.getEsporte());
+        this.esporte = entrevistadorEsporte.getEsporte().getNome();
         PerfilEsportistaCustom perfilEsportistaCustom = entrevistadorEsporte.getPerfilEsportistaCustom();
         Integer id = perfilEsportistaCustom.getId();
         Integer agilidade = perfilEsportistaCustom.getAgilidade();
@@ -65,12 +64,12 @@ public class EntrevistadorEsporteDTO implements Serializable {
         this.tempoExpertise = tempoExpertise;
     }
 
-    public EsporteDTO getEsporteDTO() {
-        return esporteDTO;
+    public String getEsporte() {
+        return esporte;
     }
 
-    public void setEsporteDTO(EsporteDTO esporteDTO) {
-        this.esporteDTO = esporteDTO;
+    public void setEsporte(String esporte) {
+        this.esporte = esporte;
     }
 
     public Integer getIdEntrevistador() {

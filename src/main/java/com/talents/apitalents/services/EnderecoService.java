@@ -38,6 +38,7 @@ public class EnderecoService {
         String rua = enderecoUpdateDTO.getRua();
         String bairro = enderecoUpdateDTO.getBairro();
         String complemento = enderecoUpdateDTO.getComplemento();
+        this.enderecoRepository.findById(id).get();
         this.enderecoRepository.update(rua, bairro, complemento, idCidade, id);
     }
 }

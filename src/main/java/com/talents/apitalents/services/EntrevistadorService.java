@@ -6,8 +6,6 @@ import java.util.stream.Collectors;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorDTO;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorInsertDTO;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorUpdateDTO;
-import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteInsertDTO;
-import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteUpdateDTO;
 import com.talents.apitalents.entities.Entrevistador;
 import com.talents.apitalents.entities.Graduacao;
 import com.talents.apitalents.repositories.EntrevistadorRepository;
@@ -47,12 +45,6 @@ public class EntrevistadorService {
         entrevistador.setGraduacao(graduacao);
         entrevistador = this.entrevistadorRepository.save(entrevistador);
         EntrevistadorDTO entrevistadorDTO = new EntrevistadorDTO(entrevistador);
-        for (EntrevistadorEsporteInsertDTO entrevistadorEsporteInsertDTO : entrevistadorInsertDTO
-                .getEntrevistadorEsporteInsertDTOs()) {
-            entrevistadorEsporteInsertDTO.setIdEntrevistador(entrevistador.getId());
-            var entrevistadorEsporteDTO = this.entrevistadorEsporteService.create(entrevistadorEsporteInsertDTO);
-            entrevistadorDTO.getEntrevistadorEsporteDTOs().add(entrevistadorEsporteDTO);
-        }
         return entrevistadorDTO;
     }
 
@@ -62,10 +54,8 @@ public class EntrevistadorService {
         String nome = entrevistadorUpdateDTO.getNome();
         String email = entrevistadorUpdateDTO.getEmail();
         String titulacao = entrevistadorUpdateDTO.getTitulacao();
+        this.entrevistadorRepository.findById(id).get();
         this.entrevistadorRepository.update(nome, email, titulacao, idGraduacao, id);
-        for (EntrevistadorEsporteUpdateDTO entrevistadorEsporteUpdateDTO : entrevistadorUpdateDTO
-                .getEntrevistadorEsporteUpdateDTOs()) {
-            this.entrevistadorEsporteService.update(entrevistadorEsporteUpdateDTO);
-        }
+        this.entrevistadorEsporteService.update(entrevistadorUpdateDTO.getEntrevistadorEsporteUpdateDTOs());
     }
 }

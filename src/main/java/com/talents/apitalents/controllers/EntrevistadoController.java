@@ -2,9 +2,11 @@ package com.talents.apitalents.controllers;
 
 import java.util.List;
 
+import com.talents.apitalents.dtos.entrevista.EntrevistaDTO;
 import com.talents.apitalents.dtos.entrevistado.EntrevistadoDTO;
 import com.talents.apitalents.dtos.entrevistado.EntrevistadoInsertDTO;
 import com.talents.apitalents.dtos.entrevistado.EntrevistadoUpdateDTO;
+import com.talents.apitalents.services.EntrevistaService;
 import com.talents.apitalents.services.EntrevistadoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +29,21 @@ public class EntrevistadoController {
     @Autowired
     private EntrevistadoService entrevistadoService;
 
+    @Autowired
+    private EntrevistaService entrevistaService;
+
     @GetMapping
     @Secured({ "ROLE_USER" })
     public ResponseEntity<List<EntrevistadoDTO>> findAll() {
         List<EntrevistadoDTO> entrevistadoDTOs = this.entrevistadoService.findAll();
         return ResponseEntity.ok().body(entrevistadoDTOs);
+    }
+
+    @GetMapping("/{idEntrevistado}/entrevistas")
+    @Secured({ "ROLE_USER" })
+    public ResponseEntity<List<EntrevistaDTO>> findEntrevistas(@PathVariable Integer idEntrevistado) {
+        List<EntrevistaDTO> entrevistaDTOs = this.entrevistaService.findByEntrevistado(idEntrevistado);
+        return ResponseEntity.ok().body(entrevistaDTOs);
     }
 
     @PostMapping
