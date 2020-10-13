@@ -6,6 +6,7 @@ import com.talents.apitalents.entities.Cidade;
 import com.talents.apitalents.entities.Endereco;
 import com.talents.apitalents.repositories.CidadeRepository;
 import com.talents.apitalents.repositories.EnderecoRepository;
+import com.talents.apitalents.services.exceptions.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,8 @@ public class EnderecoService {
         String bairro = enderecoInsertDTO.getBairro();
         String complemento = enderecoInsertDTO.getComplemento();
         Integer idCidade = enderecoInsertDTO.getIdCidade();
-        Cidade cidade = this.cidadeRepository.getOne(idCidade);
+        Cidade cidade = this.cidadeRepository.findById(idCidade)
+                .orElseThrow(() -> new EntityNotFoundException(idCidade));
         Endereco endereco = new Endereco(rua, bairro, complemento, cidade);
         endereco = this.enderecoRepository.save(endereco);
         return endereco;
@@ -38,7 +40,10 @@ public class EnderecoService {
         String rua = enderecoUpdateDTO.getRua();
         String bairro = enderecoUpdateDTO.getBairro();
         String complemento = enderecoUpdateDTO.getComplemento();
-        this.enderecoRepository.findById(id).get();
+        this.enderecoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
+        this.cidadeRepository.findById(idCidade)
+                .orElseThrow(() -> new EntityNotFoundException(idCidade));
         this.enderecoRepository.update(rua, bairro, complemento, idCidade, id);
     }
 }

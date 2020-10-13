@@ -16,6 +16,7 @@ import com.talents.apitalents.repositories.EntrevistadorEsporteRepository;
 import com.talents.apitalents.repositories.EntrevistadorRepository;
 import com.talents.apitalents.repositories.EsporteRepository;
 import com.talents.apitalents.repositories.PerfilEsportistaCustomRepository;
+import com.talents.apitalents.services.exceptions.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,9 +61,11 @@ public class EntrevistadorEsporteService {
             PerfilEsportistaCustom perfilEsportistaCustom = new PerfilEsportistaCustom(agilidade, coordenacaoMotora,
                     flexibilidade, forca, hipertrofia, potencia, resistencia, velocidade, envergaduraEstatura,
                     comprPernasEstatura, alturaTroncoCefalicaEstatura, imc);
+            Esporte esporte = this.esporteRepository.findById(idEsporte)
+                    .orElseThrow(() -> new EntityNotFoundException(idEsporte));
+            Entrevistador entrevistador = this.entrevistadorRepository.findById(idEntrevistador)
+                    .orElseThrow(() -> new EntityNotFoundException(idEsporte));
             perfilEsportistaCustom = this.perfilEsportistaCustomRepository.save(perfilEsportistaCustom);
-            Esporte esporte = this.esporteRepository.getOne(idEsporte);
-            Entrevistador entrevistador = this.entrevistadorRepository.getOne(idEntrevistador);
             EntrevistadorEsporte entrevistadorEsporte = new EntrevistadorEsporte(entrevistador, esporte, abrangencia,
                     tempoExpertise, perfilEsportistaCustom);
             entrevistadorEsporte = this.entrevistadorEsporteRepository.save(entrevistadorEsporte);
@@ -73,7 +76,7 @@ public class EntrevistadorEsporteService {
     }
 
     public void update(List<EntrevistadorEsporteUpdateDTO> entrevistadorEsporteUpdateDTOs) {
-        for(EntrevistadorEsporteUpdateDTO entrevistadorEsporteUpdateDTO : entrevistadorEsporteUpdateDTOs) {
+        for (EntrevistadorEsporteUpdateDTO entrevistadorEsporteUpdateDTO : entrevistadorEsporteUpdateDTOs) {
             Integer id = entrevistadorEsporteUpdateDTO.getId();
             Integer tempoExpertise = entrevistadorEsporteUpdateDTO.getTempoExpertise();
             String abrangencia = entrevistadorEsporteUpdateDTO.getAbrangencia();
@@ -92,7 +95,8 @@ public class EntrevistadorEsporteService {
             Integer comprPernasEstatura = perfilDTO.getComprPernasEstatura();
             Integer alturaTroncoCefalicaEstatura = perfilDTO.getAlturaTroncoCefalicaEstatura();
             Integer imc = perfilDTO.getImc();
-            this.entrevistadorEsporteRepository.findById(id).get();
+            this.entrevistadorEsporteRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException(id));
             this.perfilEsportistaCustomRepository.update(idPerfil, agilidade, coordenacaoMotora, flexibilidade, forca,
                     hipertrofia, potencia, resistencia, velocidade, envergaduraEstatura, comprPernasEstatura,
                     alturaTroncoCefalicaEstatura, imc);
@@ -102,7 +106,8 @@ public class EntrevistadorEsporteService {
 
     @Transactional(readOnly = false)
     public void delete(Integer id) {
-        EntrevistadorEsporte entrevistadorEsporte = this.entrevistadorEsporteRepository.findById(id).get();
+        EntrevistadorEsporte entrevistadorEsporte = this.entrevistadorEsporteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
         this.entrevistadorEsporteRepository.delete(entrevistadorEsporte);
     }
 }

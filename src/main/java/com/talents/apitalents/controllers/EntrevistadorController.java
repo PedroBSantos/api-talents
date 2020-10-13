@@ -8,6 +8,7 @@ import com.talents.apitalents.dtos.entrevistador.EntrevistadorDTO;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorInsertDTO;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorUpdateDTO;
 import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteInsertDTO;
+import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteUpdateDTO;
 import com.talents.apitalents.services.EntrevistaService;
 import com.talents.apitalents.services.EntrevistadorEsporteService;
 import com.talents.apitalents.services.EntrevistadorService;
@@ -86,6 +87,13 @@ public class EntrevistadorController {
             @RequestBody List<EntrevistadorEsporteInsertDTO> entrevistadorEsporteInsertDTOs) {
         this.entrevistadorEsporteService.create(entrevistadorEsporteInsertDTOs);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping("/entrevistador-esportes")
+    @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWER" })
+    public ResponseEntity<Object> update(@RequestBody List<EntrevistadorEsporteUpdateDTO> entrevistadorEsporteUpdateDTOs) {
+        this.entrevistadorEsporteService.update(entrevistadorEsporteUpdateDTOs);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/entrevistador-esportes/{id}")

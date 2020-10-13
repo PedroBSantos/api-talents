@@ -18,6 +18,7 @@ import com.talents.apitalents.repositories.EntrevistadoRepository;
 import com.talents.apitalents.repositories.EntrevistadorRepository;
 import com.talents.apitalents.repositories.EsporteRepository;
 import com.talents.apitalents.repositories.PerfilEntrevistadoRepository;
+import com.talents.apitalents.services.exceptions.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,9 +63,12 @@ public class EntrevistaService {
         Integer idEsporte = entrevistaInsertDTO.getIdEsporte();
         LocalDate dataEntrevista = entrevistaInsertDTO.getDataEntrevista();
         PerfilInsertDTO perfilInsertDTO = entrevistaInsertDTO.getPerfilEntrevistado();
-        Esporte esporte = this.esporteRepository.getOne(idEsporte);
-        Entrevistador entrevistador = this.entrevistadorRepository.getOne(idEntrevistador);
-        Entrevistado entrevistado = this.entrevistadoRepository.getOne(idEntrevistado);
+        Esporte esporte = this.esporteRepository.findById(idEsporte)
+                .orElseThrow(() -> new EntityNotFoundException(idEsporte));
+        Entrevistador entrevistador = this.entrevistadorRepository.findById(idEntrevistador)
+                .orElseThrow(() -> new EntityNotFoundException(idEntrevistador));
+        Entrevistado entrevistado = this.entrevistadoRepository.findById(idEntrevistado)
+                .orElseThrow(() -> new EntityNotFoundException(idEntrevistado));
         Entrevista entrevista = new Entrevista(dataEntrevista, entrevistado, entrevistador, esporte);
         Integer agilidade = perfilInsertDTO.getAgilidade();
         Integer coordenacaoMotora = perfilInsertDTO.getCoordenacaoMotora();
@@ -95,6 +99,8 @@ public class EntrevistaService {
         Integer idEsporte = entrevistaDTO.getIdEsporte();
         LocalDate dataEntrevista = entrevistaDTO.getDataEntrevista();
         PerfilDTO perfilEntrevistado = entrevistaDTO.getPerfilEntrevistadoDTO();
+        this.entrevistaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
         this.entrevistaRepository.update(id, dataEntrevista, idEntrevistado, idEntrevistador, idEsporte,
                 perfilEntrevistado.getId());
         Integer agilidade = perfilEntrevistado.getAgilidade();
@@ -116,7 +122,8 @@ public class EntrevistaService {
 
     @Transactional(readOnly = false)
     public void delete(Integer id) {
-        Entrevista entrevista = this.entrevistaRepository.findById(id).get();
+        Entrevista entrevista = this.entrevistaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
         this.entrevistaRepository.delete(entrevista);
     }
 }

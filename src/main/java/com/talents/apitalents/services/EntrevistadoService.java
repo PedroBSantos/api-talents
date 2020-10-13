@@ -38,7 +38,7 @@ public class EntrevistadoService {
     public EntrevistadoDTO findByEmail(String email) {
         Entrevistado entrevistado = this.entrevistadoRepository.findByEmail(email);
         if (entrevistado == null) {
-            throw new EntityNotFoundException("No data found with email: " + email);
+            throw new EntityNotFoundException(email);
         }
         EntrevistadoDTO entrevistadoDTO = new EntrevistadoDTO(entrevistado);
         return entrevistadoDTO;
@@ -46,7 +46,8 @@ public class EntrevistadoService {
 
     @Transactional(readOnly = true)
     public EntrevistadoDTO findById(Integer id) {
-        Entrevistado entrevistado = this.entrevistadoRepository.findById(id).get();
+        Entrevistado entrevistado = this.entrevistadoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
         EntrevistadoDTO entrevistadoDTO = new EntrevistadoDTO(entrevistado);
         return entrevistadoDTO;
     }
@@ -83,19 +84,16 @@ public class EntrevistadoService {
         String telefone = entrevistadoUpdateDTO.getTelefone();
         LocalDate dataNascimento = entrevistadoUpdateDTO.getDataNascimento();
         EnderecoUpdateDTO enderecoUpdateDTO = entrevistadoUpdateDTO.getEnderecoUpdateDTO();
+        this.entrevistadoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
         this.enderecoService.update(enderecoUpdateDTO);
         this.entrevistadoRepository.update(nome, cpf, rg, nomeMae, email, sexo, etnia, telefone, dataNascimento, id);
     }
 
     @Transactional(readOnly = false)
     public void delete(Integer idEntrevistado) {
-        Entrevistado entrevistado = this.entrevistadoRepository.findById(idEntrevistado).get();
-        // List<EntrevistaDTO> entrevistaDTOs =
-        // this.entrevistaService.findByEntrevistado(idEntrevistado);
-        // for (EntrevistaDTO entrevistaDTO : entrevistaDTOs) {
-        // this.entrevistaService.delete(entrevistaDTO.getId());
-        // }
-        // this.entrevistadoRepository.delete(entrevistado);
+        Entrevistado entrevistado = this.entrevistadoRepository.findById(idEntrevistado)
+                .orElseThrow(() -> new EntityNotFoundException(idEntrevistado));
         this.entrevistadoRepository.delete(entrevistado);
     }
 }

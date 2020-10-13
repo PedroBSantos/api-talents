@@ -25,9 +25,6 @@ public class EntrevistadorService {
     @Autowired
     private GraduacaoRepository graduacaoRepository;
 
-    @Autowired
-    private EntrevistadorEsporteService entrevistadorEsporteService;
-
     @Transactional(readOnly = true)
     public List<EntrevistadorDTO> findAll() {
         List<Entrevistador> entrevistadores = this.entrevistadorRepository.findAll();
@@ -46,7 +43,7 @@ public class EntrevistadorService {
     public EntrevistadorDTO findByEmail(String email) {
         Entrevistador entrevistador = this.entrevistadorRepository.findByEmail(email);
         if (entrevistador == null) {
-            throw new EntityNotFoundException("No data found with email: " + email);
+            throw new EntityNotFoundException(email);
         }
         EntrevistadorDTO entrevistadorDTO = new EntrevistadorDTO(entrevistador);
         return entrevistadorDTO;
@@ -59,7 +56,8 @@ public class EntrevistadorService {
         String email = entrevistadorInsertDTO.getEmail();
         String titulacao = entrevistadorInsertDTO.getTitulacao();
         Entrevistador entrevistador = new Entrevistador(nome, email, titulacao);
-        Graduacao graduacao = this.graduacaoRepository.getOne(idGraduacao);
+        Graduacao graduacao = this.graduacaoRepository.findById(idGraduacao)
+                .orElseThrow(() -> new EntityNotFoundException(idGraduacao));
         entrevistador.setGraduacao(graduacao);
         entrevistador = this.entrevistadorRepository.save(entrevistador);
         EntrevistadorDTO entrevistadorDTO = new EntrevistadorDTO(entrevistador);
@@ -72,13 +70,14 @@ public class EntrevistadorService {
         String nome = entrevistadorUpdateDTO.getNome();
         String email = entrevistadorUpdateDTO.getEmail();
         String titulacao = entrevistadorUpdateDTO.getTitulacao();
-        this.entrevistadorRepository.findById(id).get();
+        this.entrevistadorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
+        this.graduacaoRepository.findById(idGraduacao).orElseThrow(() -> new EntityNotFoundException(idGraduacao));
         this.entrevistadorRepository.update(nome, email, titulacao, idGraduacao, id);
-        this.entrevistadorEsporteService.update(entrevistadorUpdateDTO.getEntrevistadorEsporteUpdateDTOs());
     }
 
     public void delete(Integer idEntrevistador) {
-        Entrevistador entrevistador = this.entrevistadorRepository.findById(idEntrevistador).get();
+        Entrevistador entrevistador = this.entrevistadorRepository.findById(idEntrevistador)
+                .orElseThrow(() -> new EntityNotFoundException(idEntrevistador));
         this.entrevistadorRepository.delete(entrevistador);
     }
 }

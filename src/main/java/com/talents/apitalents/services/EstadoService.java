@@ -9,6 +9,7 @@ import com.talents.apitalents.entities.Cidade;
 import com.talents.apitalents.entities.Estado;
 import com.talents.apitalents.repositories.CidadeRepository;
 import com.talents.apitalents.repositories.EstadoRepository;
+import com.talents.apitalents.services.exceptions.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,8 @@ public class EstadoService {
 
     @Transactional(readOnly = true)
     public List<CidadeDTO> findCidades(Integer idEstado) {
-        Estado estado = this.estadoRepository.getOne(idEstado);
+        Estado estado = this.estadoRepository.findById(idEstado)
+                .orElseThrow(() -> new EntityNotFoundException(idEstado));
         List<Cidade> cidades = this.cidadeRepository.findByEstado(estado);
         return cidades.stream().map(cidade -> new CidadeDTO(cidade)).collect(Collectors.toList());
     }
