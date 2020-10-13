@@ -21,8 +21,8 @@ public class HandlerException extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorDTO> entityNotFound(EntityNotFoundException entityNotFoundException,
             HttpServletRequest request) {
         String path = request.getRequestURI();
-        ErrorDTO errorDTO = new ErrorDTO(HttpStatus.NOT_FOUND.value(), Instant.now(), "Resource not found", path,
-                entityNotFoundException.getMessage());
+        ErrorDTO errorDTO = new ErrorDTO(HttpStatus.NOT_FOUND.value(), Instant.now(), "Resource not found",
+                entityNotFoundException.getMessage(), path);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDTO);
     }
 
