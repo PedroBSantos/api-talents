@@ -1,9 +1,12 @@
 package com.talents.apitalents.dtos.estado;
 
+import java.io.Serializable;
+
 import com.talents.apitalents.entities.Estado;
 
-public class EstadoDTO {
-
+public class EstadoDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private Integer id;
     private String nome;
     private String sigla;
