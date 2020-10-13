@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.talents.apitalents.dtos.error.ErrorDTO;
 import com.talents.apitalents.services.exceptions.EntityNotFoundException;
 
 import org.springframework.http.HttpStatus;
@@ -17,20 +18,20 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class HandlerException extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ EntityNotFoundException.class })
-    public ResponseEntity<StandardError> entityNotFound(EntityNotFoundException entityNotFoundException,
+    public ResponseEntity<ErrorDTO> entityNotFound(EntityNotFoundException entityNotFoundException,
             HttpServletRequest request) {
         String path = request.getRequestURI();
-        StandardError standardError = new StandardError(HttpStatus.NOT_FOUND.value(), Instant.now(),
-                "Resource not found", path, entityNotFoundException.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
+        ErrorDTO errorDTO = new ErrorDTO(HttpStatus.NOT_FOUND.value(), Instant.now(), "Resource not found", path,
+                entityNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDTO);
     }
 
     @ExceptionHandler({ AccessDeniedException.class })
-    public ResponseEntity<Object> accessDeniedException(AccessDeniedException accessDeniedException,
+    public ResponseEntity<ErrorDTO> accessDenied(AccessDeniedException accessDeniedException,
             HttpServletRequest request) {
         String path = request.getRequestURI();
-        StandardError standardError = new StandardError(HttpStatus.FORBIDDEN.value(), Instant.now(),
-                "Access denied for this resource", accessDeniedException.getMessage(), path);
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(standardError);
+        ErrorDTO errorDTO = new ErrorDTO(HttpStatus.FORBIDDEN.value(), Instant.now(), "Access denied for this resource",
+                accessDeniedException.getMessage(), path);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDTO);
     }
 }
