@@ -126,8 +126,8 @@ public class EntrevistadorController {
 
     @DeleteMapping("/entrevistas/{idEntrevista}")
     @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWER" })
-    public ResponseEntity<Object> deleteEntrevista(@PathVariable Integer id) {
-        this.entrevistaService.delete(id);
+    public ResponseEntity<Object> deleteEntrevista(@PathVariable Integer idEntrevista) {
+        this.entrevistaService.delete(idEntrevista);
         return ResponseEntity.ok().build();
     }
 }

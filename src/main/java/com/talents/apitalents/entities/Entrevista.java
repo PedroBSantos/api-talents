@@ -3,6 +3,7 @@ package com.talents.apitalents.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Entrevista implements Serializable {
@@ -33,9 +31,8 @@ public class Entrevista implements Serializable {
     @ManyToOne
     @JoinColumn(name = "idEsporte")
     private Esporte esporte;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "idPerfilEntrevistado")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private PerfilEntrevistado perfilEntrevistado;
 
     public Entrevista() {
