@@ -31,6 +31,16 @@ public class EstadoService {
     }
 
     @Transactional(readOnly = true)
+    public EstadoDTO findByUF(String uf) {
+        Estado estado = this.estadoRepository.findBySigla(uf);
+        if (estado == null) {
+            throw new EntityNotFoundException(uf);
+        }
+        EstadoDTO estadoDTO = new EstadoDTO(estado);
+        return estadoDTO;
+    }
+
+    @Transactional(readOnly = true)
     public List<CidadeDTO> findCidades(Integer idEstado) {
         Estado estado = this.estadoRepository.findById(idEstado)
                 .orElseThrow(() -> new EntityNotFoundException(idEstado));

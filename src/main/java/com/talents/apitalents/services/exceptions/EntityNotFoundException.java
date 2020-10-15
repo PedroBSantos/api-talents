@@ -7,7 +7,7 @@ public class EntityNotFoundException extends RuntimeException {
         super("No data found for id: " + id);
     }
 
-    public EntityNotFoundException(String email) {
-        super("No data found for email: " + email);
+    public EntityNotFoundException(String string) {
+        super("No data found for: " + string);
     }
 }

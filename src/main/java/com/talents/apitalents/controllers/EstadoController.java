@@ -28,6 +28,13 @@ public class EstadoController {
         return ResponseEntity.ok().body(estadoDTOs);
     }
 
+    @GetMapping("/{uf}")
+    @Secured({ "ROLE_USER" })
+    public ResponseEntity<EstadoDTO> findByUf(@PathVariable String uf) {
+        EstadoDTO estadoDTO = this.estadoService.findByUF(uf);
+        return ResponseEntity.ok().body(estadoDTO);
+    }
+
     @GetMapping("/{idEstado}/cidades")
     @Secured({ "ROLE_USER" })
     public ResponseEntity<List<CidadeDTO>> findCidades(@PathVariable Integer idEstado) {
