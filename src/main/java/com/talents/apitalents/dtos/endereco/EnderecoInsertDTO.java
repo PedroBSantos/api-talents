@@ -5,28 +5,30 @@ import java.io.Serializable;
 public class EnderecoInsertDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String rua;
-    private String bairro;
+    private String cep;
+    private String logradouro;
     private String complemento;
-    private Integer idCidade;
+    private String bairro;
+    private String localidade;
+    private String uf;
 
     public EnderecoInsertDTO() {
     }
 
-    public String getRua() {
-        return rua;
+    public String getCep() {
+        return cep;
     }
 
-    public void setRua(String rua) {
-        this.rua = rua;
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
-    public String getBairro() {
-        return bairro;
+    public String getLogradouro() {
+        return logradouro;
     }
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
     }
 
     public String getComplemento() {
@@ -37,11 +39,27 @@ public class EnderecoInsertDTO implements Serializable {
         this.complemento = complemento;
     }
 
-    public Integer getIdCidade() {
-        return idCidade;
+    public String getBairro() {
+        return bairro;
     }
 
-    public void setIdCidade(Integer idCidade) {
-        this.idCidade = idCidade;
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getLocalidade() {
+        return localidade;
+    }
+
+    public void setLocalidade(String localidade) {
+        this.localidade = localidade;
+    }
+
+    public String getUf() {
+        return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
     }
 }

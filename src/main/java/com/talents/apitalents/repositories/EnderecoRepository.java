@@ -13,6 +13,7 @@ public interface EnderecoRepository extends JpaRepository<Endereco, Integer> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Endereco SET rua = :rua, bairro = :bairro, complemento = :complemento, id_cidade = :idCidade WHERE id = :idEndereco")
-    void update(String rua, String bairro, String complemento, Integer idCidade, Integer idEndereco);
+    @Query("UPDATE Endereco SET cep = :cep, logradouro = :logradouro, complemento = :complemento, bairro = :bairro, localidade = :localidade, uf = :uf WHERE id = :idEndereco")
+    void update(String cep, String logradouro, String complemento, String bairro, String localidade, String uf,
+            Integer idEndereco);
 }
