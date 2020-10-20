@@ -245,3 +245,6 @@ INSERT INTO graduacao(nome) VALUES ('Odontologia - Bacharelado');
 INSERT INTO graduacao(nome) VALUES ('Nutrição - Bacharelado');
 INSERT INTO graduacao(nome) VALUES ('Teatro - Bacharelado');
 INSERT INTO graduacao(nome) VALUES ('Matemática - Bacharelado');
+INSERT INTO custom_role(name) VALUES('ROLE_ADMIN'), ('ROLE_USER'), ('ROLE_INTERVIEWER'), ('ROLE_INTERVIEWEE');
+INSERT INTO custom_user(username, password) VALUES('epigen@email.com', '$2a$10$tNMWVoWKxqsu7gG.yOzxAemX7Bj0eFm0PTWhmd1VTy9gfxQVN02VG');
+INSERT INTO user_role(id_user, id_role) VALUES(1,1), (1,2);
