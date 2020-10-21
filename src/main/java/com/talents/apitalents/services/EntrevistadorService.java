@@ -35,7 +35,7 @@ public class EntrevistadorService {
     @Transactional(readOnly = true)
     public EntrevistadorDTO findById(Integer id) {
         Entrevistador entrevistador = this.entrevistadorRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No data found for id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(id));
         EntrevistadorDTO entrevistadorDTO = new EntrevistadorDTO(entrevistador);
         return entrevistadorDTO;
     }
