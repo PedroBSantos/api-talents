@@ -13,6 +13,7 @@ import com.talents.apitalents.repositories.GraduacaoRepository;
 import com.talents.apitalents.services.exceptions.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,17 +66,26 @@ public class EntrevistadorService {
         return entrevistadorDTO;
     }
 
+    @Transactional(readOnly = false)
+    @Modifying
     public void update(EntrevistadorUpdateDTO entrevistadorUpdateDTO) {
         Integer id = entrevistadorUpdateDTO.getId();
         Integer idGraduacao = entrevistadorUpdateDTO.getIdGraduacao();
         String nome = entrevistadorUpdateDTO.getNome();
         String email = entrevistadorUpdateDTO.getEmail();
         String titulacao = entrevistadorUpdateDTO.getTitulacao();
-        this.entrevistadorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
-        this.graduacaoRepository.findById(idGraduacao).orElseThrow(() -> new EntityNotFoundException(idGraduacao));
-        this.entrevistadorRepository.update(nome, email, titulacao, idGraduacao, id);
+        Entrevistador entrevistador = this.entrevistadorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
+        Graduacao graduacao = this.graduacaoRepository.findById(idGraduacao)
+                .orElseThrow(() -> new EntityNotFoundException(idGraduacao));
+        entrevistador.setGraduacao(graduacao);
+        entrevistador.setNome(nome);
+        entrevistador.setEmail(email);
+        entrevistador.setTitulacao(titulacao);
+        this.entrevistadorRepository.save(entrevistador);
     }
 
+    @Transactional(readOnly = false)
     public void delete(Integer idEntrevistador) {
         Entrevistador entrevistador = this.entrevistadorRepository.findById(idEntrevistador)
                 .orElseThrow(() -> new EntityNotFoundException(idEntrevistador));

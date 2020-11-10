@@ -15,6 +15,7 @@ import com.talents.apitalents.repositories.EntrevistadoRepository;
 import com.talents.apitalents.services.exceptions.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,6 +73,8 @@ public class EntrevistadoService {
         return entrevistadoDTO;
     }
 
+    @Transactional(readOnly = false)
+    @Modifying
     public void update(EntrevistadoUpdateDTO entrevistadoUpdateDTO) {
         Integer id = entrevistadoUpdateDTO.getId();
         String nome = entrevistadoUpdateDTO.getNome();
@@ -84,10 +87,20 @@ public class EntrevistadoService {
         String telefone = entrevistadoUpdateDTO.getTelefone();
         LocalDate dataNascimento = entrevistadoUpdateDTO.getDataNascimento();
         EnderecoUpdateDTO enderecoUpdateDTO = entrevistadoUpdateDTO.getEnderecoUpdateDTO();
-        this.entrevistadoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(id));
+        this.entrevistadoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
         this.enderecoService.update(enderecoUpdateDTO);
-        this.entrevistadoRepository.update(nome, cpf, rg, nomeMae, email, sexo, etnia, telefone, dataNascimento, id);
+        Entrevistado entrevistado = this.entrevistadoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id));
+        entrevistado.setNome(nome);
+        entrevistado.setCpf(cpf);
+        entrevistado.setRg(rg);
+        entrevistado.setNomeMae(nomeMae);
+        entrevistado.setEmail(email);
+        entrevistado.setSexo(sexo);
+        entrevistado.setEtnia(etnia);
+        entrevistado.setTelefone(telefone);
+        entrevistado.setDataNascimento(dataNascimento);
+        this.entrevistadoRepository.save(entrevistado);
     }
 
     @Transactional(readOnly = false)
