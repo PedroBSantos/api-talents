@@ -6,8 +6,10 @@ import com.talents.apitalents.entities.CustomRole;
 import com.talents.apitalents.entities.CustomUser;
 import com.talents.apitalents.repositories.RoleRepository;
 import com.talents.apitalents.repositories.UserRepository;
+import com.talents.apitalents.services.exceptions.DuplicatedDataException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,9 +37,13 @@ public class UserService {
             role = this.roleRepository.findByName("ROLE_INTERVIEWEE");
             user.getRoles().add(role);
         }
-        user = this.userRepository.save(user);
-        UserDTO userDTO = new UserDTO(user);
-        userDTO.setPassword(null);
-        return userDTO;
+        try {
+            user = this.userRepository.save(user);
+            UserDTO userDTO = new UserDTO(user);
+            userDTO.setPassword(null);
+            return userDTO;
+        } catch (DataIntegrityViolationException exception) {
+            throw new DuplicatedDataException("Duplicate email for: " + userInsertDTO.getUsername());
+        }
     }
 }
