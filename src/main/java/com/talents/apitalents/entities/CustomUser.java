@@ -32,7 +32,9 @@ public class CustomUser implements UserDetails {
     private String password;
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "id"))
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "id_user", 
+               referencedColumnName = "id"), inverseJoinColumns = 
+               @JoinColumn(name = "id_role", referencedColumnName = "id"))
     private List<CustomRole> roles;
 
     public CustomUser() {
