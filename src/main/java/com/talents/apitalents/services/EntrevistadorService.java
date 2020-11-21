@@ -1,22 +1,32 @@
 package com.talents.apitalents.services;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorDTO;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorInsertDTO;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorUpdateDTO;
+import com.talents.apitalents.dtos.entrevistador.esporte.EntrevistadorEsporteDTO;
+import com.talents.apitalents.dtos.esporte.EsporteDTO;
+import com.talents.apitalents.dtos.perfil.PerfilDTO;
 import com.talents.apitalents.entities.Entrevistador;
 import com.talents.apitalents.entities.Graduacao;
 import com.talents.apitalents.repositories.EntrevistadorRepository;
 import com.talents.apitalents.repositories.GraduacaoRepository;
+import com.talents.apitalents.services.exceptions.CreateFileSearchesException;
 import com.talents.apitalents.services.exceptions.EntityNotFoundException;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 @Service
 public class EntrevistadorService {
 
@@ -90,5 +100,85 @@ public class EntrevistadorService {
         Entrevistador entrevistador = this.entrevistadorRepository.findById(idEntrevistador)
                 .orElseThrow(() -> new EntityNotFoundException(idEntrevistador));
         this.entrevistadorRepository.delete(entrevistador);
+    }
+
+    @Transactional(readOnly = true)
+    public HSSFWorkbook downloadPesquisas(Integer idEntrevistador) {
+        EntrevistadorDTO entrevistadorDTO = this.findById(idEntrevistador);
+        String arquivo = "pesquisas.xls";
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheetPesquisas = workbook.createSheet("Pesquisas");
+        int rownum = 0;
+        for (int i = 0; i < 1; i++) {
+            Row row = sheetPesquisas.createRow(rownum++);
+            int cellnum = 0;
+            Cell cellEsporte = row.createCell(cellnum++);
+            cellEsporte.setCellValue("Esporte");
+            Cell cellAgilidade = row.createCell(cellnum++);
+            cellAgilidade.setCellValue("Agilidade");
+            Cell cellCoordenacaoMotora = row.createCell(cellnum++);
+            cellCoordenacaoMotora.setCellValue("CoordenacaoMotora");
+            Cell cellFlexibilidade = row.createCell(cellnum++);
+            cellFlexibilidade.setCellValue("Flexibilidade");
+            Cell cellForca = row.createCell(cellnum++);
+            cellForca.setCellValue("Forca");
+            Cell cellHipertrofia = row.createCell(cellnum++);
+            cellHipertrofia.setCellValue("Hipertrofia");
+            Cell cellPotencia = row.createCell(cellnum++);
+            cellPotencia.setCellValue("Potencia");
+            Cell cellResistencia = row.createCell(cellnum++);
+            cellResistencia.setCellValue("Resistencia");
+            Cell cellVelocidade = row.createCell(cellnum++);
+            cellVelocidade.setCellValue("Velocidade");
+            Cell cellEnvergaduraEstatura = row.createCell(cellnum++);
+            cellEnvergaduraEstatura.setCellValue("EnvergaduraEstatura");
+            Cell cellComprPernasEstatura = row.createCell(cellnum++);
+            cellComprPernasEstatura.setCellValue("ComprPernasEstatura");
+            Cell cellAlturaTroncoCefalicaEstatura = row.createCell(cellnum++);
+            cellAlturaTroncoCefalicaEstatura.setCellValue("AlturaTroncoCefalicaEstatura");
+            Cell cellImc = row.createCell(cellnum++);
+            cellImc.setCellValue("Imc");
+        }
+        for (EntrevistadorEsporteDTO entrevistadorEsporteDTO : entrevistadorDTO.getEntrevistadorEsporteDTOs()) {
+            PerfilDTO perfilDTO = entrevistadorEsporteDTO.getPerfilCustom();
+            EsporteDTO esporteDTO = entrevistadorEsporteDTO.getEsporteDTO();
+            int cellnum = 0;
+            Row row = sheetPesquisas.createRow(rownum++);
+            Cell cellNomeEsporte = row.createCell(cellnum++);
+            cellNomeEsporte.setCellValue(esporteDTO.getNome());
+            Cell cellAgilidade = row.createCell(cellnum++);
+            cellAgilidade.setCellValue(perfilDTO.getAgilidade());
+            Cell cellCoordenacaoMotora = row.createCell(cellnum++);
+            cellCoordenacaoMotora.setCellValue(perfilDTO.getCoordenacaoMotora());
+            Cell cellFlexibilidade = row.createCell(cellnum++);
+            cellFlexibilidade.setCellValue(perfilDTO.getFlexibilidade());
+            Cell cellForca = row.createCell(cellnum++);
+            cellForca.setCellValue(perfilDTO.getForca());
+            Cell cellHipertrofia = row.createCell(cellnum++);
+            cellHipertrofia.setCellValue(perfilDTO.getHipertrofia());
+            Cell cellPotencia = row.createCell(cellnum++);
+            cellPotencia.setCellValue(perfilDTO.getPotencia());
+            Cell cellResistencia = row.createCell(cellnum++);
+            cellResistencia.setCellValue(perfilDTO.getResistencia());
+            Cell cellVelocidade = row.createCell(cellnum++);
+            cellVelocidade.setCellValue(perfilDTO.getVelocidade());
+            Cell cellEnvergaduraEstatura = row.createCell(cellnum++);
+            cellEnvergaduraEstatura.setCellValue(perfilDTO.getEnvergaduraEstatura());
+            Cell cellComprPernasEstatura = row.createCell(cellnum++);
+            cellComprPernasEstatura.setCellValue(perfilDTO.getComprPernasEstatura());
+            Cell cellAlturaTroncoCefalicaEstatura = row.createCell(cellnum++);
+            cellAlturaTroncoCefalicaEstatura.setCellValue(perfilDTO.getAlturaTroncoCefalicaEstatura());
+            Cell cellIMC = row.createCell(cellnum++);
+            cellIMC.setCellValue(perfilDTO.getImc());
+        }
+        try {
+            File file = new File(arquivo);
+            FileOutputStream out = new FileOutputStream(file);
+            workbook.write(out);
+            out.close();
+            return workbook;
+        } catch (IOException exception) {
+            throw new CreateFileSearchesException("Can't create file with searches.");
+        }
     }
 }

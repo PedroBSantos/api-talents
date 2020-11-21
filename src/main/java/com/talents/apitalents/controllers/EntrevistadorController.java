@@ -1,6 +1,10 @@
 package com.talents.apitalents.controllers;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import com.talents.apitalents.dtos.entrevista.EntrevistaDTO;
 import com.talents.apitalents.dtos.entrevista.EntrevistaInsertDTO;
@@ -17,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -91,7 +96,8 @@ public class EntrevistadorController {
 
     @PutMapping("/entrevistador-esportes")
     @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWER" })
-    public ResponseEntity<Object> update(@RequestBody List<EntrevistadorEsporteUpdateDTO> entrevistadorEsporteUpdateDTOs) {
+    public ResponseEntity<Object> update(
+            @RequestBody List<EntrevistadorEsporteUpdateDTO> entrevistadorEsporteUpdateDTOs) {
         this.entrevistadorEsporteService.update(entrevistadorEsporteUpdateDTOs);
         return ResponseEntity.ok().build();
     }
@@ -129,5 +135,25 @@ public class EntrevistadorController {
     public ResponseEntity<Object> deleteEntrevista(@PathVariable Integer idEntrevista) {
         this.entrevistaService.delete(idEntrevista);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{idEntrevistador}/download-pesquisas")
+    @Secured({ "ROLE_ADMIN", "ROLE_INTERVIEWER" })
+    public ResponseEntity<Object> downloadPesquisas(@PathVariable Integer idEntrevistador,
+            HttpServletResponse response) {
+        var workbook = this.entrevistadorService.downloadPesquisas(idEntrevistador);
+        try {
+            String filename = "pesquisas.xls";
+            String filetype = "application/vnd.ms-excel";
+            response.addHeader("Content-disposition", "attachment;filename=" + filename);
+            response.setContentType(filetype);
+            workbook.write(response.getOutputStream());
+            response.flushBuffer();
+            workbook.close();
+            FileSystemUtils.deleteRecursively(new File("pesquisas.xls"));
+            return ResponseEntity.ok().build();
+        } catch (IOException ioException) {
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }
