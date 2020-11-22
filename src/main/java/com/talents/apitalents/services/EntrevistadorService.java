@@ -1,10 +1,10 @@
 package com.talents.apitalents.services;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletResponse;
 
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorDTO;
 import com.talents.apitalents.dtos.entrevistador.EntrevistadorInsertDTO;
@@ -103,9 +103,8 @@ public class EntrevistadorService {
     }
 
     @Transactional(readOnly = true)
-    public HSSFWorkbook downloadPesquisas(Integer idEntrevistador) {
+    public void downloadPesquisas(Integer idEntrevistador, HttpServletResponse response) {
         EntrevistadorDTO entrevistadorDTO = this.findById(idEntrevistador);
-        String arquivo = "pesquisas.xls";
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheetPesquisas = workbook.createSheet("Pesquisas");
         int rownum = 0;
@@ -172,12 +171,14 @@ public class EntrevistadorService {
             cellIMC.setCellValue(perfilDTO.getImc());
         }
         try {
-            File file = new File(arquivo);
-            FileOutputStream out = new FileOutputStream(file);
-            workbook.write(out);
-            out.close();
-            return workbook;
-        } catch (IOException exception) {
+            String filename = "pesquisas.xls";
+            String filetype = "application/vnd.ms-excel";
+            response.addHeader("Content-disposition", "attachment;filename=" + filename);
+            response.setContentType(filetype);
+            workbook.write(response.getOutputStream());
+            response.flushBuffer();
+            workbook.close();
+        } catch(IOException exception){
             throw new CreateFileSearchesException("Can't create file with searches.");
         }
     }
